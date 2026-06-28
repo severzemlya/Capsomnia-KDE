@@ -56,8 +56,7 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
     }
 
     @objc private func quit() {
-        log("menu_quit restore_off")
-        _ = runHelper("off")
+        log("menu_quit")
         NSApp.terminate(nil)
     }
 
