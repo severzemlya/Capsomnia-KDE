@@ -78,6 +78,14 @@ Logs are written to:
 
 ## Troubleshooting
 
+If installation fails with an error like this:
+
+```text
+install: /usr/local/sbin/INS...: No such file or directory
+```
+
+Update to the latest `main` branch and run `./scripts/install.sh` again. Older installer versions did not create `/usr/local/sbin` on Macs where that directory was missing.
+
 Check whether sleep is disabled:
 
 ```sh

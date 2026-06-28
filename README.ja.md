@@ -78,6 +78,14 @@ sudoers rule はこの 2 コマンドに限定されています。helper も `o
 
 ## トラブルシュート
 
+インストール時に次のようなエラーが出る場合:
+
+```text
+install: /usr/local/sbin/INS...: No such file or directory
+```
+
+最新の `main` branch に更新してから、もう一度 `./scripts/install.sh` を実行してください。古い installer では、`/usr/local/sbin` が存在しない Mac でこのディレクトリを作成していませんでした。
+
 スリープ抑止状態を確認する:
 
 ```sh

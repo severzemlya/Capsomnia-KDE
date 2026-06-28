@@ -16,6 +16,7 @@ cd "$ROOT_DIR"
 /usr/bin/swift build -c release
 /usr/bin/install -m 0755 ".build/release/$APP_NAME" "$INSTALL_DIR/$APP_NAME"
 
+sudo /bin/mkdir -p "$(dirname "$HELPER_PATH")" "$(dirname "$SUDOERS_PATH")"
 sudo /usr/bin/install -o root -g wheel -m 0755 "support/capsomnia-pmset" "$HELPER_PATH"
 
 sudoers_tmp="$(mktemp)"
