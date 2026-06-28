@@ -2,6 +2,8 @@
 
 [日本語 README](README.ja.md)
 
+Current version: `0.1.0`
+
 Capsomnia is a tiny macOS menu bar app that uses Caps Lock as a physical keep-awake switch.
 
 When Caps Lock is on, Capsomnia disables system sleep with `pmset`. When Caps Lock is off, it restores normal sleep behavior.
@@ -15,6 +17,19 @@ When Caps Lock is on, Capsomnia disables system sleep with `pmset`. When Caps Lo
 - Quitting the app restores normal sleep behavior
 
 Capsomnia is useful when long-running local jobs, AI coding agents, builds, downloads, or scripts should keep running while you step away.
+
+## Why Not `caffeinate`?
+
+`caffeinate` is great for preventing idle sleep while your Mac is open. Closing a MacBook lid is different: normal `caffeinate` assertions do not reliably keep local jobs running in closed-lid use.
+
+Capsomnia uses `pmset -a disablesleep 1`, which disables system sleep itself. This is more suitable when you explicitly want long-running local work to continue while the lid is closed.
+
+## Safety Notes
+
+- Turn Caps Lock off before putting your MacBook in a bag.
+- Expect more battery drain while sleep is disabled.
+- Watch temperature during long closed-lid runs.
+- Capsomnia is designed as a manual switch, not as a background policy manager.
 
 ## Requirements
 
@@ -104,3 +119,7 @@ If the menu bar dot does not react immediately, Capsomnia also polls the Caps Lo
 ## License
 
 MIT
+
+## Project Status
+
+Capsomnia is in early public release. See [CHANGELOG.md](CHANGELOG.md) for release history and [SECURITY.md](SECURITY.md) for vulnerability reporting.
