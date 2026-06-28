@@ -2,6 +2,12 @@
 
 All notable changes to Capsomnia will be documented in this file.
 
+## 0.1.1 - 2026-06-28
+
+Documentation cleanup.
+
+- Removed obsolete installer troubleshooting text from the README files.
+
 ## 0.1.0 - 2026-06-28
 
 Initial public release.

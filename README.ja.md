@@ -2,7 +2,7 @@
 
 [English README](README.md)
 
-現在のバージョン: `0.1.0`
+現在のバージョン: `0.1.1`
 
 Capsomnia は、Caps Lock を「スリープ抑止スイッチ」として使うための小さな macOS メニューバーアプリです。
 
@@ -92,14 +92,6 @@ sudoers rule はこの 2 コマンドに限定されています。helper も `o
 ```
 
 ## トラブルシュート
-
-インストール時に次のようなエラーが出る場合:
-
-```text
-install: /usr/local/sbin/INS...: No such file or directory
-```
-
-最新の `main` branch に更新してから、もう一度 `./scripts/install.sh` を実行してください。古い installer では helper を `/usr/local/sbin` に配置しており、このディレクトリが存在しない Mac で失敗することがありました。
 
 スリープ抑止状態を確認する:
 

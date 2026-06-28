@@ -2,7 +2,7 @@
 
 [日本語 README](README.ja.md)
 
-Current version: `0.1.0`
+Current version: `0.1.1`
 
 Capsomnia is a tiny macOS menu bar app that uses Caps Lock as a physical keep-awake switch.
 
@@ -92,14 +92,6 @@ Logs are written to:
 ```
 
 ## Troubleshooting
-
-If installation fails with an error like this:
-
-```text
-install: /usr/local/sbin/INS...: No such file or directory
-```
-
-Update to the latest `main` branch and run `./scripts/install.sh` again. Older installer versions installed the helper under `/usr/local/sbin`, which may not exist on some Macs.
 
 Check whether sleep is disabled:
 
