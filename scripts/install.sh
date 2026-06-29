@@ -18,10 +18,18 @@ if [[ "$CURRENT_USER" == *[!A-Za-z0-9._-]* ]]; then
   exit 64
 fi
 
+build_tmp="$(mktemp -d)"
+sudoers_tmp=""
+cleanup() {
+  [[ -n "$sudoers_tmp" ]] && /bin/rm -f "$sudoers_tmp"
+  [[ -n "$build_tmp" ]] && /bin/rm -rf "$build_tmp"
+}
+trap cleanup EXIT
+
 mkdir -p "$HOME/Applications" "$LOG_DIR" "$HOME/Library/LaunchAgents"
 
 cd "$ROOT_DIR"
-BUILT_APP="$("$ROOT_DIR/scripts/build-app.sh")"
+BUILT_APP="$("$ROOT_DIR/scripts/build-app.sh" "$build_tmp/$APP_NAME.app")"
 /bin/rm -rf "$APP_BUNDLE"
 /usr/bin/ditto "$BUILT_APP" "$APP_BUNDLE"
 /bin/rm -rf "$LEGACY_INSTALL_DIR"
@@ -33,7 +41,6 @@ sudo /usr/bin/install -o root -g wheel -m 0755 "support/capsomnia-pmset" "$HELPE
 sudo /bin/rm -f "$LEGACY_HELPER_PATH"
 
 sudoers_tmp="$(mktemp)"
-trap 'rm -f "$sudoers_tmp"' EXIT
 cat > "$sudoers_tmp" <<EOF
 # Allow Capsomnia to toggle only its fixed pmset helper.
 $CURRENT_USER ALL=(root) NOPASSWD: $HELPER_PATH on, $HELPER_PATH off
