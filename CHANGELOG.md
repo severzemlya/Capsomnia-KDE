@@ -2,6 +2,16 @@
 
 All notable changes to Capsomnia will be documented in this file.
 
+## 0.2.0 - 2026-06-29
+
+App bundle release.
+
+- Added `Capsomnia.app` bundle generation.
+- Added `Info.plist` and `AppIcon.icns`.
+- Updated installation to place the app at `~/Applications/Capsomnia.app`.
+- Updated LaunchAgent startup to run the app bundle executable.
+- Kept the existing privileged helper and sudoers security model.
+
 ## 0.1.3 - 2026-06-29
 
 Documentation and asset update.

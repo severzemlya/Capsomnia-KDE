@@ -6,7 +6,8 @@ Capsomnia is currently in early public release. Security fixes target the latest
 
 | Version | Supported |
 | --- | --- |
-| 0.1.x | Yes |
+| 0.2.x | Yes |
+| 0.1.x | No |
 
 ## Reporting a Vulnerability
 

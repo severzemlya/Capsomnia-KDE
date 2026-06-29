@@ -4,7 +4,8 @@ set -euo pipefail
 APP_NAME="Capsomnia"
 LABEL="com.github.fuji-mak.capsomnia"
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-INSTALL_DIR="$HOME/Library/Application Support/$APP_NAME"
+APP_BUNDLE="$HOME/Applications/$APP_NAME.app"
+LEGACY_INSTALL_DIR="$HOME/Library/Application Support/$APP_NAME"
 LOG_DIR="$HOME/Library/Logs/$APP_NAME"
 LAUNCH_AGENT="$HOME/Library/LaunchAgents/$LABEL.plist"
 HELPER_PATH="/Library/PrivilegedHelperTools/capsomnia-pmset"
@@ -17,11 +18,13 @@ if [[ "$CURRENT_USER" == *[!A-Za-z0-9._-]* ]]; then
   exit 64
 fi
 
-mkdir -p "$INSTALL_DIR" "$LOG_DIR" "$HOME/Library/LaunchAgents"
+mkdir -p "$HOME/Applications" "$LOG_DIR" "$HOME/Library/LaunchAgents"
 
 cd "$ROOT_DIR"
-/usr/bin/swift build -c release
-/usr/bin/install -m 0755 ".build/release/$APP_NAME" "$INSTALL_DIR/$APP_NAME"
+BUILT_APP="$("$ROOT_DIR/scripts/build-app.sh")"
+/bin/rm -rf "$APP_BUNDLE"
+/usr/bin/ditto "$BUILT_APP" "$APP_BUNDLE"
+/bin/rm -rf "$LEGACY_INSTALL_DIR"
 
 sudo /bin/mkdir -p "$(dirname "$HELPER_PATH")" "$(dirname "$SUDOERS_PATH")"
 sudo /usr/sbin/chown root:wheel "$(dirname "$HELPER_PATH")" "$(dirname "$SUDOERS_PATH")"
@@ -50,7 +53,7 @@ cat > "$LAUNCH_AGENT" <<EOF
 
   <key>ProgramArguments</key>
   <array>
-    <string>$INSTALL_DIR/$APP_NAME</string>
+    <string>$APP_BUNDLE/Contents/MacOS/$APP_NAME</string>
   </array>
 
   <key>RunAtLoad</key>

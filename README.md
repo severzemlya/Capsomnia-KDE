@@ -6,7 +6,7 @@
 
 [日本語 README](README.ja.md)
 
-Current version: `0.1.3`
+Current version: `0.2.0`
 
 Capsomnia is a tiny macOS menu bar app that uses Caps Lock as a physical keep-awake switch.
 
@@ -41,7 +41,7 @@ Capsomnia uses `pmset -a disablesleep 1`, which disables system sleep itself. Th
 - Swift 6 toolchain
 - Administrator access during installation
 
-Capsomnia is currently distributed as source. The install script builds the app locally.
+Capsomnia is currently distributed as source. The install script builds `Capsomnia.app` locally.
 
 ## Install
 
@@ -54,7 +54,7 @@ cd Capsomnia
 The installer:
 
 1. Builds the Swift executable in release mode.
-2. Installs the app binary into `~/Library/Application Support/Capsomnia/`.
+2. Builds and installs `Capsomnia.app` into `~/Applications/`.
 3. Installs a fixed root-owned helper at `/Library/PrivilegedHelperTools/capsomnia-pmset`.
 4. Adds a narrow sudoers rule for the current user.
 5. Installs and starts a LaunchAgent.
@@ -67,7 +67,7 @@ The app starts automatically at login after installation.
 ./scripts/uninstall.sh
 ```
 
-The uninstaller unloads the LaunchAgent, removes the app binary, removes the helper, removes the sudoers rule, and restores normal sleep behavior.
+The uninstaller unloads the LaunchAgent, removes `~/Applications/Capsomnia.app`, removes the helper, removes the sudoers rule, and restores normal sleep behavior.
 
 ## Security Model
 
