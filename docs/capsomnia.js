@@ -160,9 +160,7 @@
     }
   }
 
-  var currentLang =
-    readStoredValue("capsomnia-lang") ||
-    (window.navigator.language && window.navigator.language.indexOf("ja") === 0 ? "ja" : "en");
+  var currentLang = readStoredValue("capsomnia-lang") || "ja";
 
   function applyLanguage(lang) {
     var dict = translations[lang] || translations.en;
@@ -246,6 +244,5 @@
     }
   });
 
-  applyTheme(currentTheme);
   applyLanguage(currentLang);
 })();

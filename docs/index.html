@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Capsomnia — Caps Lock as a physical keep-awake switch for macOS</title>
-  <meta name="description" content="Capsomnia turns Caps Lock into a physical keep-awake switch for closed-lid MacBook background work. Run Codex, Claude Code, SSH sessions, builds, and unattended scripts without sleep.">
+  <title>Capsomnia — Caps LockをMacの物理スリープ防止スイッチに</title>
+  <meta name="description" content="CapsomniaはCaps Lockを、蓋を閉じたMacBookでも作業を止めないための物理スイッチに変えるmacOSアプリです。Codex、Claude Code、SSH、ビルド、ダウンロード、放置スクリプト向け。">
   <meta name="theme-color" content="#000000">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Capsomnia — Macの最も無駄なキーに最高の仕事を与える">
-  <meta property="og:description" content="Caps Lock becomes a physical keep-awake switch for closed-lid MacBook background work. Codex, Claude Code, SSH, builds, downloads, unattended scripts.">
+  <meta property="og:description" content="Caps Lockを、蓋を閉じたMacBookでも作業を止めないための物理スイッチに。Codex、Claude Code、SSH、ビルド、ダウンロード、放置スクリプト向け。">
   <meta property="og:image" content="https://fuji-mak.github.io/Capsomnia/icon.svg">
   <meta property="og:url" content="https://fuji-mak.github.io/Capsomnia/">
   <meta property="og:site_name" content="Capsomnia">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Capsomnia — Macの最も無駄なキーに最高の仕事を与える">
-  <meta name="twitter:description" content="Caps Lock becomes a physical keep-awake switch for closed-lid MacBook background work.">
+  <meta name="twitter:description" content="Caps Lockを、蓋を閉じたMacBookでも作業を止めないための物理スイッチに。">
   <meta name="twitter:image" content="https://fuji-mak.github.io/Capsomnia/icon.svg">
 
   <link rel="stylesheet" href="styles.css?v=20260629-header2">
 </head>
 <body class="bg-[var(--bg)] text-[var(--text)] antialiased [text-rendering:optimizeLegibility]">
-  <a class="sr-only focus:not-sr-only focus:fixed focus:left-0 focus:top-0 focus:z-[100] focus:rounded-br-lg focus:bg-[var(--led)] focus:px-4 focus:py-2 focus:font-semibold focus:text-black" href="#main" data-i18n="skipLink">Skip to content</a>
+  <a class="sr-only focus:not-sr-only focus:fixed focus:left-0 focus:top-0 focus:z-[100] focus:rounded-br-lg focus:bg-[var(--led)] focus:px-4 focus:py-2 focus:font-semibold focus:text-black" href="#main" data-i18n="skipLink">本文へ移動</a>
 
   <header class="sticky top-0 z-50 flex items-center gap-4 border-b border-[var(--border)] bg-[var(--header-bg)] px-4 py-3 backdrop-blur-xl backdrop-saturate-150 sm:px-10">
     <a class="inline-flex items-center gap-2.5 text-base font-bold text-[var(--text)] no-underline sm:text-lg" href="#top">
@@ -32,16 +32,16 @@
     </a>
 
     <nav class="site-nav mr-auto hidden items-center gap-2.5 sm:flex lg:gap-6" aria-label="Main navigation">
-      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#uses" data-i18n="navUses">Use cases</a>
-      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#why" data-i18n="navWhy">Why</a>
-      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#install" data-i18n="navInstall">Install</a>
-      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#security" data-i18n="navSecurity">Security</a>
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#uses" data-i18n="navUses">用途</a>
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#why" data-i18n="navWhy">理由</a>
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#install" data-i18n="navInstall">インストール</a>
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#security" data-i18n="navSecurity">安全性</a>
     </nav>
 
     <div class="ml-auto flex shrink-0 items-center justify-end gap-2 lg:gap-3">
       <div class="lang-switch inline-flex shrink-0 gap-0.5 rounded-full border border-[var(--border-strong)] bg-[var(--surface)] p-1" aria-label="Language">
-        <button class="lang-btn min-w-8 rounded-full px-2 py-1 text-xs font-bold text-[var(--text-dim)] hover:text-[var(--text)] sm:min-w-[38px] sm:px-2.5" type="button" data-lang-option="en" aria-pressed="true">EN</button>
-        <button class="lang-btn min-w-8 rounded-full px-2 py-1 text-xs font-bold text-[var(--text-dim)] hover:text-[var(--text)] sm:min-w-[38px] sm:px-2.5" type="button" data-lang-option="ja" aria-pressed="false">JA</button>
+        <button class="lang-btn min-w-8 rounded-full px-2 py-1 text-xs font-bold text-[var(--text-dim)] hover:text-[var(--text)] sm:min-w-[38px] sm:px-2.5" type="button" data-lang-option="en" aria-pressed="false">EN</button>
+        <button class="lang-btn min-w-8 rounded-full px-2 py-1 text-xs font-bold text-[var(--text-dim)] hover:text-[var(--text)] sm:min-w-[38px] sm:px-2.5" type="button" data-lang-option="ja" aria-pressed="true">JA</button>
       </div>
       <a class="rounded-full bg-[var(--led)] px-3.5 py-2 text-sm font-semibold text-black no-underline hover:bg-[var(--led-bright)] sm:px-4" href="https://github.com/fuji-mak/Capsomnia">GitHub</a>
     </div>
@@ -219,6 +219,6 @@ sudo -n /Library/PrivilegedHelperTools/capsomnia-pmset off</code></pre>
     <p class="text-sm" data-i18n="footerCatch">Macの最も無駄なキーに最高の仕事を与える</p>
   </footer>
 
-  <script src="capsomnia.js?v=20260629-header2"></script>
+  <script src="capsomnia.js?v=20260629-lang-ja1"></script>
 </body>
 </html>
