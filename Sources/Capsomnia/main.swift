@@ -9,6 +9,12 @@ private let logDirectoryURL = FileManager.default.homeDirectoryForCurrentUser
 private let logPath = logDirectoryURL
     .appendingPathComponent("capsomnia.log")
     .path
+private let brandLEDColor = NSColor(
+    srgbRed: 184.0 / 255.0,
+    green: 255.0 / 255.0,
+    blue: 31.0 / 255.0,
+    alpha: 1.0
+)
 
 private enum PreferenceKey {
     static let showMenuBarIcon = "ShowMenuBarIcon"
@@ -44,7 +50,7 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
     private var stateMenuItem: NSMenuItem?
     private var settingsWindowController: SettingsWindowController?
-    private let onImage = DotImage.make(color: .systemGreen)
+    private let onImage = DotImage.make(color: brandLEDColor)
     private let offImage = DotImage.make(color: NSColor(calibratedWhite: 0.58, alpha: 1.0))
 
     func applicationDidFinishLaunching(_ notification: Notification) {
