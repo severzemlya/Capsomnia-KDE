@@ -25,25 +25,25 @@
 <body class="bg-[var(--bg)] text-[var(--text)] antialiased [text-rendering:optimizeLegibility]">
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-0 focus:top-0 focus:z-[100] focus:rounded-br-lg focus:bg-[var(--led)] focus:px-4 focus:py-2 focus:font-semibold focus:text-black" href="#main" data-i18n="skipLink">Skip to content</a>
 
-  <header class="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] bg-[var(--header-bg)] px-4 py-3 backdrop-blur-xl backdrop-saturate-150 sm:px-10">
+  <header class="sticky top-0 z-50 flex items-center gap-4 border-b border-[var(--border)] bg-[var(--header-bg)] px-4 py-3 backdrop-blur-xl backdrop-saturate-150 sm:px-10">
     <a class="inline-flex items-center gap-2.5 text-base font-bold text-[var(--text)] no-underline sm:text-lg" href="#top">
       <img class="brand-led block h-6 w-6 rounded-md sm:h-7 sm:w-7" src="icon.svg" alt="" width="28" height="28">
       <span>Capsomnia</span>
     </a>
 
-    <div class="flex flex-1 items-center justify-end gap-2 lg:gap-3">
-      <nav class="site-nav flex items-center gap-2.5 lg:gap-6" aria-label="Main navigation">
-        <a class="hidden text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)] sm:inline" href="#uses" data-i18n="navUses">Use cases</a>
-        <a class="hidden text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)] sm:inline" href="#why" data-i18n="navWhy">Why</a>
-        <a class="hidden text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)] sm:inline" href="#install" data-i18n="navInstall">Install</a>
-        <a class="hidden text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)] sm:inline" href="#security" data-i18n="navSecurity">Security</a>
-        <a class="rounded-full bg-[var(--led)] px-3.5 py-2 text-sm font-semibold text-black no-underline hover:bg-[var(--led-bright)] sm:px-4" href="https://github.com/fuji-mak/Capsomnia">GitHub</a>
-      </nav>
+    <nav class="site-nav mr-auto hidden items-center gap-2.5 sm:flex lg:gap-6" aria-label="Main navigation">
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#uses" data-i18n="navUses">Use cases</a>
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#why" data-i18n="navWhy">Why</a>
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#install" data-i18n="navInstall">Install</a>
+      <a class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]" href="#security" data-i18n="navSecurity">Security</a>
+    </nav>
 
+    <div class="ml-auto flex shrink-0 items-center justify-end gap-2 lg:gap-3">
       <div class="lang-switch inline-flex shrink-0 gap-0.5 rounded-full border border-[var(--border-strong)] bg-[var(--surface)] p-1" aria-label="Language">
         <button class="lang-btn min-w-8 rounded-full px-2 py-1 text-xs font-bold text-[var(--text-dim)] hover:text-[var(--text)] sm:min-w-[38px] sm:px-2.5" type="button" data-lang-option="en" aria-pressed="true">EN</button>
         <button class="lang-btn min-w-8 rounded-full px-2 py-1 text-xs font-bold text-[var(--text-dim)] hover:text-[var(--text)] sm:min-w-[38px] sm:px-2.5" type="button" data-lang-option="ja" aria-pressed="false">JA</button>
       </div>
+      <a class="rounded-full bg-[var(--led)] px-3.5 py-2 text-sm font-semibold text-black no-underline hover:bg-[var(--led-bright)] sm:px-4" href="https://github.com/fuji-mak/Capsomnia">GitHub</a>
     </div>
   </header>
 
