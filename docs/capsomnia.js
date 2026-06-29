@@ -11,7 +11,7 @@
       navWhy: "Why",
       navInstall: "Install",
       navSecurity: "Security",
-      heroTitle: 'Give the Mac\'s <span class="catch-accent">most wasted key</span><br>its <span class="catch-accent">best job</span>',
+      heroTitle: 'Give Caps Lock<br><span class="catch-accent">a real job</span>',
       heroSub:
         "<strong>Caps Lock becomes a physical keep-awake switch.</strong> Flip it on, close the lid, and let your background work keep running.",
       installCta: "Install from source",
@@ -20,19 +20,18 @@
       stripOnSub: "Runs <code>pmset -a disablesleep 1</code> — sleep is disabled.",
       stripOffTitle: "Caps Lock off",
       stripOffSub: "Runs <code>pmset -a disablesleep 0</code> — normal sleep behavior.",
-      usesTitle: "One switch for closed-lid work",
+      usesTitle: "A physical switch for AI agents",
       usesLede:
-        "When a long-running local job should keep going while you step away, flip Caps Lock on. Close the lid. Capsomnia keeps the machine awake until you flip it back.",
-      usesLedeSub:
-        "For AI agents, SSH sessions, builds, downloads, and scripts that should keep running unattended.",
-      cardAgentsTitle: "AI coding agents",
-      cardAgentsBody: "Let Codex or Claude Code keep working on long tasks while the lid is shut.",
+        "Flip Caps Lock on, close the lid, and let long-running local work continue. Capsomnia keeps your Mac awake until you turn it off. The Caps Lock LED shows the sleep-prevention state at a glance.",
+      usesLedeSub: "For AI agents, SSH, builds, downloads, and scripts you do not want interrupted.",
+      cardAgentsTitle: "AI agents",
+      cardAgentsBody: "Keep long Codex or Claude Code tasks running with the lid closed.",
       cardSshTitle: "SSH sessions",
       cardSshBody: "Drive your Mac remotely without it dropping into sleep mid-session.",
       cardBuildsTitle: "Builds &amp; downloads",
       cardBuildsBody: "Long compiles and large downloads finish on their own time.",
-      cardScriptsTitle: "Unattended scripts",
-      cardScriptsBody: "Batch jobs and overnight scripts run to completion, untouched.",
+      cardScriptsTitle: "Mobile connections",
+      cardScriptsBody: "Keep Codex Mobile and other remote sessions connected while your Mac works with the lid closed.",
       whyTitle: "Why not <code>caffeinate</code>?",
       whyBodyOne:
         "<code>caffeinate</code> is great at preventing <em>idle</em> sleep while your Mac is open. Closing the lid is a different problem: ordinary <code>caffeinate</code> assertions do not reliably keep local jobs running in closed-lid use.",
@@ -48,12 +47,10 @@
       copiedButton: "Copied",
       stepOne: "Builds the Swift executable in release mode.",
       stepTwo: "Builds and installs <code>Capsomnia.app</code> into <code>~/Applications/</code>.",
-      stepThree:
-        "Installs a root-owned helper at <code>/Library/PrivilegedHelperTools/capsomnia-pmset</code>.",
+      stepThree: "Installs a root-owned helper at <code>/Library/PrivilegedHelperTools/capsomnia-pmset</code>.",
       stepFour: "Adds a narrow sudoers rule for the current user.",
       stepFive: "Installs and starts a LaunchAgent — the app launches at login.",
-      installReq:
-        "Requires macOS 14 or later, a Swift 6 toolchain, and administrator access during installation.",
+      installReq: "Requires macOS 14 or later, a Swift 6 toolchain, and administrator access during installation.",
       securityTitle: "Security model",
       securityLede:
         "The menu bar app runs as the current user — never as root. Changing system sleep settings needs elevated privileges, so Capsomnia uses one small, fixed, root-owned helper through passwordless <code>sudo</code>.",
@@ -70,7 +67,7 @@
       linkReadmeJaSub: "Japanese documentation",
       linkSecurityTitle: "Security policy",
       linkSecuritySub: "Reporting &amp; model",
-      footerCatch: "Give the Mac's most wasted key its best job"
+      footerCatch: "Give Caps Lock a real job"
     },
     ja: {
       title: "Capsomnia — Caps LockをMacの物理スリープ防止スイッチに",
@@ -81,7 +78,8 @@
       navWhy: "理由",
       navInstall: "インストール",
       navSecurity: "安全性",
-      heroTitle: 'Macの<span class="catch-accent">最も無駄なキー</span>に<br><span class="catch-accent">最高の仕事</span>を与える',
+      heroTitle:
+        'Macの<span class="catch-accent">最も無駄なキー</span>に<br><span class="catch-accent">最高の仕事</span>を与える',
       heroSub:
         "<strong>Caps Lockを物理的なスリープ防止スイッチに。</strong> オンにして蓋を閉じるだけで、バックグラウンド作業を走らせ続けます。",
       installCta: "ソースからインストール",
@@ -90,19 +88,18 @@
       stripOnSub: "<code>pmset -a disablesleep 1</code> を実行し、スリープを無効化します。",
       stripOffTitle: "Caps Lock オフ",
       stripOffSub: "<code>pmset -a disablesleep 0</code> を実行し、通常のスリープ動作に戻します。",
-      usesTitle: "蓋閉じ作業のための物理スイッチ",
+      usesTitle: "AIエージェントのための物理スイッチ",
       usesLede:
-        "長時間走らせたいローカル作業があるときは、Caps Lockをオンにして蓋を閉じるだけ。Capsomniaが、オフに戻すまでMacを起こしたままにします。",
-      usesLedeSub:
-        "AIエージェント、SSH、ビルド、ダウンロード、放置スクリプトを止めたくない場面に向いています。",
-      cardAgentsTitle: "AIコーディングエージェント",
+        "長時間走らせたいローカル作業があるときは、Caps Lockをオンにして蓋を閉じるだけ。Capsomniaが、オフに戻すまでMacを起こしたままにします。Caps LockのLEDが、スリープ防止の状態を視覚的に示します。",
+      usesLedeSub: "AIエージェント、SSH、ビルド、ダウンロード、スクリプトを止めたくない場面に向いています。",
+      cardAgentsTitle: "AIエージェント",
       cardAgentsBody: "CodexやClaude Codeの長い作業を、蓋を閉じたまま走らせます。",
       cardSshTitle: "SSHセッション",
       cardSshBody: "リモートからMacを触っている途中で、スリープに落ちるのを防ぎます。",
       cardBuildsTitle: "ビルドとダウンロード",
       cardBuildsBody: "長いコンパイルや大きなダウンロードを最後まで進めます。",
-      cardScriptsTitle: "放置スクリプト",
-      cardScriptsBody: "バッチ処理や夜間ジョブを、触らずに完走させます。",
+      cardScriptsTitle: "モバイル接続",
+      cardScriptsBody: "Codex Mobile等のモバイル接続を維持し、蓋を閉じたまま作業を続けます。",
       whyTitle: "なぜ <code>caffeinate</code> ではないのか",
       whyBodyOne:
         "<code>caffeinate</code> は、Macを開いているときのアイドルスリープ防止には便利です。ただ、蓋を閉じるケースは別問題です。通常の <code>caffeinate</code> assertion では、蓋閉じ状態のローカルジョブ継続を安定して保証できません。",
@@ -113,17 +110,15 @@
       compareNote: "オンなら走らせ続ける。オフなら通常のスリープに戻す。そういう手動スイッチです。",
       installTitle: "ソースからインストール",
       installLede:
-        "現時点のCapsomniaはソース配布です。インストールスクリプトがローカルで <code>Capsomnia.app</code> をビルドし、必要な設定まで行います。",
+        "現在のCapsomniaはソース配布です。インストールスクリプトがローカルで <code>Capsomnia.app</code> をビルドし、必要な設定まで行います。",
       copyButton: "コピー",
       copiedButton: "コピー済み",
       stepOne: "Swift実行ファイルをrelease modeでビルドします。",
       stepTwo: "<code>Capsomnia.app</code> をビルドし、<code>~/Applications/</code> に配置します。",
-      stepThree:
-        "root所有のhelperを <code>/Library/PrivilegedHelperTools/capsomnia-pmset</code> に配置します。",
+      stepThree: "root所有のhelperを <code>/Library/PrivilegedHelperTools/capsomnia-pmset</code> に配置します。",
       stepFour: "現在のユーザー向けに、範囲を絞ったsudoersルールを追加します。",
       stepFive: "LaunchAgentを配置して起動します。ログイン時にアプリが起動します。",
-      installReq:
-        "macOS 14以降、Swift 6 toolchain、インストール時の管理者権限が必要です。",
+      installReq: "macOS 14以降、Swift 6 toolchain、インストール時の管理者権限が必要です。",
       securityTitle: "安全性の考え方",
       securityLede:
         "メニューバーアプリ本体は現在のユーザーとして動き、rootでは動きません。システムのスリープ設定変更には昇格権限が必要なため、Capsomniaは固定の小さなroot所有helperを、passwordless <code>sudo</code> 経由で呼び出します。",
