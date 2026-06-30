@@ -4,7 +4,11 @@
   <img src="resources/CapsomniaIcon.svg" alt="Capsomnia icon" width="128" height="128">
 </p>
 
-[日本語 README](README.ja.md) · [Website](https://fuji-mak.github.io/Capsomnia/) · [Releases](https://github.com/fuji-mak/Capsomnia/releases)
+<p align="center">
+  <a href="README.ja.md"><img alt="日本語 README" src="https://img.shields.io/badge/README-JA-b7ff3c?style=for-the-badge&labelColor=111111"></a>
+  <a href="https://fuji-mak.github.io/Capsomnia/"><img alt="Website" src="https://img.shields.io/badge/Website-Open-b7ff3c?style=for-the-badge&labelColor=111111"></a>
+  <a href="https://github.com/fuji-mak/Capsomnia/releases"><img alt="Releases" src="https://img.shields.io/badge/Releases-v0.3.0-b7ff3c?style=for-the-badge&labelColor=111111"></a>
+</p>
 
 Current version: `0.3.0`
 
