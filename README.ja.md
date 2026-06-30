@@ -6,6 +6,14 @@
 
 [English README](README.md) · [Website](https://fuji-mak.github.io/Capsomnia/) · [Releases](https://github.com/fuji-mak/Capsomnia/releases)
 
+<p align="center">
+  <img src="resources/caps-lock-on.jpg" alt="Caps Lock ランプ点灯" width="720">
+</p>
+
+<p align="center">
+  <em>この小さいランプが点いている間、Mac は寝ません。</em>
+</p>
+
 現在のバージョン: `0.3.0`
 
 **Capsomnia** は、Caps Lock を「閉じた MacBook でも作業を止めないための物理スイッチ」にする小さな macOS アプリです。
