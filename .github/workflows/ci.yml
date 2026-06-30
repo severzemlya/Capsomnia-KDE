@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  app:
+    name: macOS app
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build release executable
+        run: swift build -c release
+      - name: Check shell scripts
+        run: |
+          zsh -n scripts/build-app.sh
+          zsh -n scripts/install.sh
+          zsh -n scripts/uninstall.sh
+          zsh -n support/capsomnia-pmset
+
+  site:
+    name: GitHub Pages site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build:site
