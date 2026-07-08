@@ -64,9 +64,9 @@
         >
         <a
           class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]"
-          href="#why"
-          data-i18n="navWhy"
-          >理由</a
+          href="#features"
+          data-i18n="navFeatures"
+          >特徴</a
         >
         <a
           class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]"
@@ -234,38 +234,68 @@
       </section>
 
       <section
-        class="mx-auto grid max-w-[1080px] grid-cols-1 items-start gap-8 border-t border-[var(--border)] px-4 py-14 sm:px-10 sm:py-24 lg:grid-cols-[1.1fr_0.9fr]"
-        id="why"
+        class="mx-auto max-w-[1080px] border-t border-[var(--border)] px-4 py-14 sm:px-10 sm:py-24"
+        id="features"
       >
-        <div>
-          <h2 class="mb-5 text-[clamp(1.6rem,3.4vw,2.3rem)] font-bold leading-[1.18]" data-i18n="whyTitle">
-            Why not <code>caffeinate</code>?
-          </h2>
-          <p class="mb-4 text-[var(--text-dim)]" data-i18n="whyBodyOne">
-            <code>caffeinate</code> は、Macを開いているときのアイドルスリープ防止には便利です。しかし、蓋を閉じれば実行中のプロセスは通常停止してしまいます。
+        <div class="mb-10 max-w-[900px]">
+          <p class="mb-3 font-mono text-sm font-semibold uppercase tracking-normal text-[var(--led)]" data-i18n="featuresEyebrow">
+            Features
           </p>
-          <p class="text-[var(--text-dim)]" data-i18n="whyBodyTwo">
-            Capsomniaは <code>pmset -a disablesleep 1</code> を使い、システムスリープそのものを無効化します。蓋を閉じてもローカル作業を続けられ、Caps LockのLEDがその状態を示すため画面を汚しません。
+          <h2 class="mb-5 text-[clamp(1.6rem,3.4vw,2.3rem)] font-bold leading-[1.18]" data-i18n="featuresTitle">
+            蓋を閉じても、Macを仕事中にする
+          </h2>
+          <p class="text-[1.08rem] text-[var(--text-dim)]" data-i18n="featuresLede">
+            Capsomniaは、蓋閉じ作業の継続、物理ライトでの状態確認、無料OSSとしての透明性に絞った小さなMacアプリです。
           </p>
         </div>
-        <div class="rounded-[20px] border border-[var(--border)] bg-[var(--surface)] p-5">
-          <div
-            class="flex items-center gap-3.5 border-b border-[var(--border)] py-3.5 pt-1 text-[0.96rem] text-[var(--text-dim)]"
-          >
-            <span
-              class="min-w-24 rounded-lg border border-[var(--border-strong)] bg-[var(--muted-tag-bg)] px-2.5 py-1 text-center font-mono text-xs font-semibold"
-              >caffeinate</span
-            >
-            <span data-i18n="compareCaffeinate">Blocks idle sleep · lid open</span>
+        <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_0.88fr]">
+          <div class="order-2 lg:order-1">
+            <div class="grid grid-cols-1 gap-4">
+              <article class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-5">
+                <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-normal text-[var(--led)]" data-i18n="featureClosedKicker">
+                  Closed lid
+                </p>
+                <h3 class="mb-2 text-[1.05rem] font-bold" data-i18n="featureClosedTitle">蓋を閉じても処理が続行</h3>
+                <p class="text-[0.95rem] text-[var(--text-dim)]" data-i18n="featureClosedBody">
+                  Caps Lockをオンにすれば、MacBookの蓋を閉じてもローカル処理を走らせ続けます。SSH接続先としても使い続けられます。
+                </p>
+              </article>
+              <article class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-5">
+                <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-normal text-[var(--led)]" data-i18n="featureLedKicker">
+                  Physical state
+                </p>
+                <h3 class="mb-2 text-[1.05rem] font-bold" data-i18n="featureLedTitle">Caps Lockのライトで状態確認</h3>
+                <p class="text-[0.95rem] text-[var(--text-dim)]" data-i18n="featureLedBody">
+                  ランプが点いていればスリープ抑止中。メニューバー表示なしでも分かるので、画面を汚しません。
+                </p>
+              </article>
+              <article class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-5">
+                <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-normal text-[var(--led)]" data-i18n="featureOssKicker">
+                  Open source
+                </p>
+                <h3 class="mb-2 text-[1.05rem] font-bold" data-i18n="featureOssTitle">完全無料、OSS公開で安心設計</h3>
+                <p class="text-[0.95rem] text-[var(--text-dim)]" data-i18n="featureOssBody">
+                  MIT Licenseで公開。ソースコード、helperが実行できるコマンド、安全性モデルを確認できます。
+                </p>
+              </article>
+            </div>
           </div>
-          <div
-            class="flex items-center gap-3.5 py-3.5 text-[0.96rem] text-[var(--text)]"
-          >
-            <span
-              class="min-w-24 rounded-lg bg-[var(--led)] px-2.5 py-1 text-center font-mono text-xs font-semibold text-black"
-              >Capsomnia</span
-            >
-            <span data-i18n="compareCapsomnia">Disables system sleep · lid closed</span>
+          <div class="order-1 lg:order-2" aria-label="Capsomnia app preview" data-i18n-aria-label="previewLabel">
+            <div class="preview-glow mx-auto w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[370px]">
+              <img
+                class="preview-shot block w-full"
+                src="app-preview-framed.png"
+                alt="Capsomnia settings window"
+                data-i18n-src="previewSrc"
+                data-i18n-alt="previewAlt"
+                data-i18n-width="previewWidth"
+                data-i18n-height="previewHeight"
+                width="800"
+                height="1020"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -434,6 +464,6 @@ sudo -n /Library/PrivilegedHelperTools/capsomnia-pmset display-sleep</code></pre
       <p class="text-sm" data-i18n="footerCatch">Macの最も無駄なキーに最高の仕事を与える</p>
     </footer>
 
-    <script src="capsomnia.js?v=20260629-cta1"></script>
+    <script src="capsomnia.js?v=20260708-features2"></script>
   </body>
 </html>

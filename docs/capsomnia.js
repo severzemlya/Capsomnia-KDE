@@ -8,7 +8,7 @@
         "Capsomnia turns Caps Lock into a physical keep-awake switch for closed-lid MacBook background work. Run Codex, Claude Code, SSH sessions, builds, and unattended scripts without sleep.",
       skipLink: "Skip to content",
       navUses: "Use cases",
-      navWhy: "Why",
+      navFeatures: "Features",
       navInstall: "Install",
       navSecurity: "Security",
       heroTitle: 'Give Caps Lock<br><span class="catch-accent">a real job</span>',
@@ -20,6 +20,11 @@
       stripOnSub: "Runs <code>pmset -a disablesleep 1</code> — sleep is disabled.",
       stripOffTitle: "Caps Lock off",
       stripOffSub: "Runs <code>pmset -a disablesleep 0</code> — normal sleep behavior.",
+      previewLabel: "Capsomnia app preview",
+      previewAlt: "Capsomnia settings window",
+      previewSrc: "app-preview-en.png",
+      previewWidth: "800",
+      previewHeight: "1038",
       usesTitle: "A physical switch for AI agents",
       usesLede:
         "Flip Caps Lock on, close the lid, and let long-running local work continue. Capsomnia keeps your MacBook awake until you turn it off. The Caps Lock LED shows the sleep-prevention state at a glance.",
@@ -31,13 +36,22 @@
       cardBuildsBody: "Long compiles and large downloads finish on their own time.",
       cardScriptsTitle: "Mobile connections",
       cardScriptsBody: "Keep Codex Mobile and other mobile sessions connected so work does not stop.",
-      whyTitle: "Why not <code>caffeinate</code>?",
-      whyBodyOne:
-        "<code>caffeinate</code> is useful while your Mac is open. But once you close the lid, running processes usually stop.",
-      whyBodyTwo:
-        "Capsomnia uses <code>pmset -a disablesleep 1</code> to disable system sleep itself. Local work can continue with the lid closed, and the Caps Lock LED shows the state without cluttering your screen.",
-      compareCaffeinate: "Blocks idle sleep · lid open",
-      compareCapsomnia: "Disables system sleep · lid closed",
+      featuresEyebrow: "Features",
+      featuresTitle: "Keep your Mac working after the lid closes",
+      featuresLede:
+        "Capsomnia is a small Mac app focused on closed-lid continuity, physical status visibility, and transparent open-source design.",
+      featureClosedKicker: "Closed lid",
+      featureClosedTitle: "Keeps work running with the lid closed",
+      featureClosedBody:
+        "Turn Caps Lock on, close the MacBook, and local jobs keep running. Your Mac can remain reachable over SSH when remote login and networking are available.",
+      featureLedKicker: "Physical state",
+      featureLedTitle: "The Caps Lock LED shows status",
+      featureLedBody:
+        "When the light is on, sleep prevention is on. You can check the state from the keyboard and keep your menu bar clean.",
+      featureOssKicker: "Open source",
+      featureOssTitle: "Completely free, open-source design",
+      featureOssBody:
+        "Released under the MIT License. You can inspect the source, the helper commands, and the security model before installing.",
       installTitle: "Install from source",
       installLede:
         "Capsomnia is distributed as source for now. The install script builds <code>Capsomnia.app</code> locally and sets everything up.",
@@ -73,7 +87,7 @@
         "CapsomniaはCaps Lockを、蓋を閉じたMacBookでも作業を止めないための物理スイッチに変えるmacOSアプリです。Codex、Claude Code、SSH、ビルド、ダウンロード、放置スクリプト向け。",
       skipLink: "本文へ移動",
       navUses: "用途",
-      navWhy: "理由",
+      navFeatures: "特徴",
       navInstall: "インストール",
       navSecurity: "安全性",
       heroTitle:
@@ -86,6 +100,11 @@
       stripOnSub: "<code>pmset -a disablesleep 1</code> を実行し、スリープを無効化します。",
       stripOffTitle: "Caps Lock オフ",
       stripOffSub: "<code>pmset -a disablesleep 0</code> を実行し、通常のスリープ動作に戻します。",
+      previewLabel: "Capsomniaアプリのプレビュー",
+      previewAlt: "Capsomniaの設定画面",
+      previewSrc: "app-preview-framed.png",
+      previewWidth: "800",
+      previewHeight: "1020",
       usesTitle: "AIエージェントのための物理スイッチ",
       usesLede:
         "長時間走らせたいローカル作業があるときは、Caps Lockをオンにして蓋を閉じるだけ。Capsomniaが、オフに戻すまでMacBookを起こしたままにします。Caps LockのLEDが、スリープ防止の状態を視覚的に示します。",
@@ -97,13 +116,22 @@
       cardBuildsBody: "長いコンパイルや大きなダウンロードを最後まで進めます。",
       cardScriptsTitle: "モバイル接続",
       cardScriptsBody: "Codex Mobile等のモバイル接続を維持し、作業を止めません。",
-      whyTitle: "なぜ <code>caffeinate</code> ではないのか",
-      whyBodyOne:
-        "<code>caffeinate</code> は、Macを開いているときのアイドルスリープ防止には便利です。しかし、蓋を閉じれば実行中のプロセスは通常停止してしまいます。",
-      whyBodyTwo:
-        "Capsomniaは <code>pmset -a disablesleep 1</code> を使い、システムスリープそのものを無効化します。蓋を閉じてもローカル作業を続けられ、Caps LockのLEDがその状態を示すため画面を汚しません。",
-      compareCaffeinate: "アイドルスリープを防ぐ · 蓋は開いたまま",
-      compareCapsomnia: "システムスリープを無効化 · 蓋閉じ対応",
+      featuresEyebrow: "Features",
+      featuresTitle: "蓋を閉じても、Macを仕事中にする",
+      featuresLede:
+        "Capsomniaは、蓋閉じ作業の継続、物理ライトでの状態確認、無料OSSとしての透明性に絞った小さなMacアプリです。",
+      featureClosedKicker: "Closed lid",
+      featureClosedTitle: "蓋を閉じても処理が続行",
+      featureClosedBody:
+        "Caps Lockをオンにすれば、MacBookの蓋を閉じてもローカル処理を走らせ続けます。SSH接続先としても使い続けられます。",
+      featureLedKicker: "Physical state",
+      featureLedTitle: "Caps Lockのライトで状態確認",
+      featureLedBody:
+        "ランプが点いていればスリープ抑止中。メニューバー表示なしでも分かるので、画面を汚しません。",
+      featureOssKicker: "Open source",
+      featureOssTitle: "完全無料、OSS公開で安心設計",
+      featureOssBody:
+        "MIT Licenseで公開。ソースコード、helperが実行できるコマンド、安全性モデルを確認できます。",
       installTitle: "ソースからインストール",
       installLede:
         "現在のCapsomniaはソース配布です。インストールスクリプトがローカルで <code>Capsomnia.app</code> をビルドし、必要な設定まで行います。",
@@ -209,6 +237,34 @@
       var key = el.getAttribute("data-i18n-aria-label");
       if (Object.prototype.hasOwnProperty.call(dict, key)) {
         el.setAttribute("aria-label", dict[key]);
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-alt");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) {
+        el.setAttribute("alt", dict[key]);
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-src]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-src");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) {
+        el.setAttribute("src", dict[key]);
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-width]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-width");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) {
+        el.setAttribute("width", dict[key]);
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-height]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-height");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) {
+        el.setAttribute("height", dict[key]);
       }
     });
 
