@@ -1,4 +1,6 @@
 {
+  "name": "capsomnia",
+  "private": true,
   "scripts": {
     "build:site": "tailwindcss -i docs/styles.input.css -o docs/styles.css --minify"
   },

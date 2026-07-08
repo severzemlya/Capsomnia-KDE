@@ -2,6 +2,13 @@
 
 All notable changes to Capsomnia will be documented in this file.
 
+## 0.3.2 - 2026-07-08
+
+Repository cleanup release.
+
+- Removed release packaging scripts from the public source archive.
+- Removed stale project metadata and unused site CSS variables.
+
 ## 0.3.1 - 2026-07-08
 
 Signed package distribution.

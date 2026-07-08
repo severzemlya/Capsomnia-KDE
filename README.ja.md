@@ -16,9 +16,9 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-b7ff3c?style=flat-square&labelColor=111111"></a>
 </p>
 
-現在のバージョン: `0.3.1`
+現在のバージョン: `0.3.2`
 
-[English README](README.md) · [`Capsomnia-0.3.1.pkg` をダウンロード](https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia-0.3.1.pkg)
+[English README](README.md) · [`Capsomnia-0.3.2.pkg` をダウンロード](https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia-0.3.2.pkg)
 
 **Capsomnia** は、Caps Lock を「閉じた MacBook でも作業を止めないための物理スイッチ」にする小さな macOS アプリです。
 
@@ -43,7 +43,7 @@ AIエージェントの実行、モバイル接続、その他長時間の実行
 
 署名済みパッケージでインストール:
 
-1. [GitHub Releases](https://github.com/fuji-mak/Capsomnia/releases/latest) から `Capsomnia-0.3.1.pkg` をダウンロード
+1. [GitHub Releases](https://github.com/fuji-mak/Capsomnia/releases/latest) から `Capsomnia-0.3.2.pkg` をダウンロード
 2. パッケージを開き、インストーラに従う
 
 リリース用パッケージは Developer ID で署名し、Apple の公証を通しています。パッケージは `Capsomnia.app` を `/Applications` に配置し、スリープ制御用の privileged helper、限定的な sudoers rule、LaunchAgent を設定します。インストール後、Capsomnia はログイン時に自動起動します。
