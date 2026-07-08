@@ -2,6 +2,15 @@
 
 All notable changes to Capsomnia will be documented in this file.
 
+## 0.3.1 - 2026-07-08
+
+Signed package distribution.
+
+- Added Developer ID package build workflow.
+- Added notarization and stapling helper script.
+- Updated uninstall cleanup for both package and source installs.
+- Updated English and Japanese documentation for signed package installation.
+
 ## 0.3.0 - 2026-06-30
 
 Closed-lid display sleep setting.

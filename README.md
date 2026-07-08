@@ -16,7 +16,7 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-b7ff3c?style=flat-square&labelColor=111111"></a>
 </p>
 
-Current version: `0.3.0`
+Current version: `0.3.1`
 
 Capsomnia is a small macOS menu bar app that turns Caps Lock into a physical keep-awake switch for closed-lid MacBook work.
 
@@ -37,10 +37,18 @@ It is useful for AI agents, mobile access, and other long-running or remote work
 Requirements:
 
 - macOS 14 or later
-- Swift 6 toolchain
 - Administrator access during installation
 
-Install from source:
+Install the signed package:
+
+1. Download `Capsomnia-0.3.1.pkg` from [GitHub Releases](https://github.com/fuji-mak/Capsomnia/releases/latest).
+2. Open the package and follow the installer.
+
+Release packages are signed with Developer ID and notarized by Apple. The package installs `Capsomnia.app` in `/Applications`, installs the privileged sleep-control helper, adds a narrow sudoers rule, and starts the LaunchAgent. Capsomnia starts automatically at login after installation.
+
+## Build From Source
+
+Developer source install still works and requires a Swift 6 toolchain:
 
 ```sh
 git clone https://github.com/fuji-mak/Capsomnia.git
@@ -48,9 +56,7 @@ cd Capsomnia
 ./scripts/install.sh
 ```
 
-The installer builds `Capsomnia.app` locally, places it in `~/Applications/`, installs the privileged sleep-control helper, adds a narrow sudoers rule, and starts the LaunchAgent. Capsomnia starts automatically at login after installation.
-
-Capsomnia is currently a developer-oriented source distribution. A signed and notarized app or package is not available yet.
+The source installer builds `Capsomnia.app` locally, places it in `~/Applications/`, installs the same helper and sudoers rule, and starts a user LaunchAgent.
 
 ## What It Does
 
@@ -75,7 +81,7 @@ Open Capsomnia again later to change:
 - language
 - opening at login, enabled by default
 
-You can open Capsomnia from `~/Applications/Capsomnia.app` or from the menu bar item while it is visible.
+You can open Capsomnia from `/Applications/Capsomnia.app` after package installation, from `~/Applications/Capsomnia.app` after source installation, or from the menu bar item while it is visible.
 
 ## Why Not `caffeinate`?
 
@@ -91,7 +97,9 @@ Capsomnia keeps work running in closed-lid use the same way it would while the l
 
 ## Update
 
-From an existing clone:
+For package installs, download and run the latest package from [GitHub Releases](https://github.com/fuji-mak/Capsomnia/releases/latest).
+
+For source installs, update from an existing clone:
 
 ```sh
 cd Capsomnia
@@ -107,7 +115,7 @@ The install script overwrites the app bundle, helper, sudoers rule, and LaunchAg
 ./scripts/uninstall.sh
 ```
 
-The uninstaller unloads the LaunchAgent, removes `~/Applications/Capsomnia.app`, removes the helper, removes the sudoers rule, and restores normal sleep behavior.
+The uninstaller unloads the LaunchAgent, removes `Capsomnia.app` from `/Applications` or `~/Applications`, removes the helper, removes the sudoers rule, and restores normal sleep behavior.
 
 ## Security Model
 
@@ -146,9 +154,11 @@ pmset -g | grep disablesleep
 Restart the LaunchAgent:
 
 ```sh
-launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.github.fuji-mak.capsomnia.plist"
-launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.github.fuji-mak.capsomnia.plist"
+launchctl bootout "gui/$(id -u)" /Library/LaunchAgents/com.github.fuji-mak.capsomnia.plist
+launchctl bootstrap "gui/$(id -u)" /Library/LaunchAgents/com.github.fuji-mak.capsomnia.plist
 ```
+
+For source installs, use `$HOME/Library/LaunchAgents/com.github.fuji-mak.capsomnia.plist` instead.
 
 Check the helper permissions:
 

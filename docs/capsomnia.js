@@ -15,6 +15,7 @@
       heroSub:
         "<strong>Caps Lock becomes a physical keep-awake switch.</strong> Flip it on, close the lid, and let your background work keep running.",
       installCta: "Install",
+      downloadCta: "Download",
       stripLabel: "How it works",
       stripOnTitle: "Caps Lock on",
       stripOnSub: "Runs <code>pmset -a disablesleep 1</code> — sleep is disabled.",
@@ -52,17 +53,18 @@
       featureOssTitle: "Completely free, open-source design",
       featureOssBody:
         "Released under the MIT License. You can inspect the source, the helper commands, and the security model before installing.",
-      installTitle: "Install from source",
+      installTitle: "Install the signed package",
       installLede:
-        "Capsomnia is distributed as source for now. The install script builds <code>Capsomnia.app</code> locally and sets everything up.",
+        "Download the Developer ID signed and Apple-notarized <code>.pkg</code> from GitHub Releases. Source builds remain available for developers.",
       copyButton: "Copy",
       copiedButton: "Copied",
-      stepOne: "Build <code>Capsomnia.app</code> locally.",
-      stepTwo: "Place the app in <code>~/Applications/</code>.",
-      stepThree: "Install the sleep-control helper.",
-      stepFour: "Allow only the helper's <code>on</code>/<code>off</code>/<code>display-sleep</code> commands.",
-      stepFive: "Register the LaunchAgent so Capsomnia starts at login.",
-      installReq: "Requires macOS 14 or later, a Swift 6 toolchain, and administrator access during installation.",
+      stepOne: "Download the signed <code>Capsomnia-0.3.1.pkg</code> from GitHub Releases.",
+      stepTwo: "The installer places <code>Capsomnia.app</code> in <code>/Applications</code>.",
+      stepThree: "It installs the sleep-control helper in <code>/Library/PrivilegedHelperTools</code>.",
+      stepFour: "It allows only the helper's <code>on</code>/<code>off</code>/<code>display-sleep</code> commands through sudoers.",
+      stepFive: "It registers the LaunchAgent so Capsomnia starts at login.",
+      installReq:
+        "Requires macOS 14 or later and administrator access during installation. A Swift 6 toolchain is only required when building from source.",
       securityTitle: "Security model",
       securityLede:
         "The menu bar app runs as the current user — never as root. Changing system sleep settings needs elevated privileges, so Capsomnia uses one small, fixed, root-owned helper through passwordless <code>sudo</code>.",
@@ -95,6 +97,7 @@
       heroSub:
         "<strong>Caps Lockを物理的なスリープ防止スイッチに。</strong> オンにして蓋を閉じるだけで、バックグラウンド作業を走らせ続けます。",
       installCta: "インストール",
+      downloadCta: "ダウンロード",
       stripLabel: "仕組み",
       stripOnTitle: "Caps Lock オン",
       stripOnSub: "<code>pmset -a disablesleep 1</code> を実行し、スリープを無効化します。",
@@ -132,17 +135,18 @@
       featureOssTitle: "完全無料、OSS公開で安心設計",
       featureOssBody:
         "MIT Licenseで公開。ソースコード、helperが実行できるコマンド、安全性モデルを確認できます。",
-      installTitle: "ソースからインストール",
+      installTitle: "署名済みパッケージでインストール",
       installLede:
-        "現在のCapsomniaはソース配布です。インストールスクリプトがローカルで <code>Capsomnia.app</code> をビルドし、必要な設定まで行います。",
+        "GitHub ReleasesからDeveloper ID署名・Apple公証済みの <code>.pkg</code> をダウンロードできます。ソースからのビルドも開発者向けに残しています。",
       copyButton: "コピー",
       copiedButton: "コピー済み",
-      stepOne: "<code>Capsomnia.app</code> をローカルでビルドします。",
-      stepTwo: "アプリを <code>~/Applications/</code> に配置します。",
-      stepThree: "スリープ制御用helperを配置します。",
-      stepFour: "helperの <code>on</code>/<code>off</code>/<code>display-sleep</code> だけを許可します。",
-      stepFive: "LaunchAgentを登録し、ログイン時に起動します。",
-      installReq: "macOS 14以降、Swift 6 toolchain、インストール時の管理者権限が必要です。",
+      stepOne: "GitHub Releasesから署名済み <code>Capsomnia-0.3.1.pkg</code> をダウンロードします。",
+      stepTwo: "インストーラが <code>Capsomnia.app</code> を <code>/Applications</code> に配置します。",
+      stepThree: "スリープ制御用helperを <code>/Library/PrivilegedHelperTools</code> に配置します。",
+      stepFour: "helperの <code>on</code>/<code>off</code>/<code>display-sleep</code> だけをsudoersで許可します。",
+      stepFive: "LaunchAgentを登録し、ログイン時にCapsomniaを起動します。",
+      installReq:
+        "macOS 14以降とインストール時の管理者権限が必要です。ソースからビルドする場合のみSwift 6 toolchainが必要です。",
       securityTitle: "安全性の考え方",
       securityLede:
         "メニューバーアプリ本体は現在のユーザーとして動き、rootでは動きません。システムのスリープ設定変更には昇格権限が必要なため、Capsomniaは固定の小さなroot所有helperを、passwordless <code>sudo</code> 経由で呼び出します。",
