@@ -55,16 +55,11 @@
         "Released under the MIT License. You can inspect the source, the helper commands, and the security model before installing.",
       installTitle: "Install the signed package",
       installLede:
-        "Download the Developer ID signed and Apple-notarized <code>.pkg</code> from GitHub Releases. Source builds remain available for developers.",
-      copyButton: "Copy",
-      copiedButton: "Copied",
-      stepOne: "Download the signed <code>Capsomnia-0.3.1.pkg</code> from GitHub Releases.",
-      stepTwo: "The installer places <code>Capsomnia.app</code> in <code>/Applications</code>.",
-      stepThree: "It installs the sleep-control helper in <code>/Library/PrivilegedHelperTools</code>.",
-      stepFour: "It allows only the helper's <code>on</code>/<code>off</code>/<code>display-sleep</code> commands through sudoers.",
-      stepFive: "It registers the LaunchAgent so Capsomnia starts at login.",
-      installReq:
-        "Requires macOS 14 or later and administrator access during installation. A Swift 6 toolchain is only required when building from source.",
+        "Use the Download button to get the Apple-notarized <code>.pkg</code> directly. Open it and follow the installer.",
+      stepOne: "Download <code>Capsomnia-0.3.1.pkg</code> with the Download button.",
+      stepTwo: "Open the <code>.pkg</code> and follow the installer.",
+      stepThree: "Turn Caps Lock on and start using Capsomnia.",
+      installReq: "Requires macOS 14 or later and administrator access during installation. The detailed security model is in the README.",
       securityTitle: "Security model",
       securityLede:
         "The menu bar app runs as the current user — never as root. Changing system sleep settings needs elevated privileges, so Capsomnia uses one small, fixed, root-owned helper through passwordless <code>sudo</code>.",
@@ -137,16 +132,11 @@
         "MIT Licenseで公開。ソースコード、helperが実行できるコマンド、安全性モデルを確認できます。",
       installTitle: "署名済みパッケージでインストール",
       installLede:
-        "GitHub ReleasesからDeveloper ID署名・Apple公証済みの <code>.pkg</code> をダウンロードできます。ソースからのビルドも開発者向けに残しています。",
-      copyButton: "コピー",
-      copiedButton: "コピー済み",
-      stepOne: "GitHub Releasesから署名済み <code>Capsomnia-0.3.1.pkg</code> をダウンロードします。",
-      stepTwo: "インストーラが <code>Capsomnia.app</code> を <code>/Applications</code> に配置します。",
-      stepThree: "スリープ制御用helperを <code>/Library/PrivilegedHelperTools</code> に配置します。",
-      stepFour: "helperの <code>on</code>/<code>off</code>/<code>display-sleep</code> だけをsudoersで許可します。",
-      stepFive: "LaunchAgentを登録し、ログイン時にCapsomniaを起動します。",
-      installReq:
-        "macOS 14以降とインストール時の管理者権限が必要です。ソースからビルドする場合のみSwift 6 toolchainが必要です。",
+        "ページ上のダウンロードボタンからApple公証済みの <code>.pkg</code> をそのまま保存できます。開いてインストーラに従えば完了です。",
+      stepOne: "ダウンロードボタンで <code>Capsomnia-0.3.1.pkg</code> を保存します。",
+      stepTwo: "<code>.pkg</code> を開き、インストーラに従います。",
+      stepThree: "Caps Lockをオンにして使います。",
+      installReq: "macOS 14以降、インストール時に管理者権限が必要です。詳細な安全性モデルはREADMEにまとめています。",
       securityTitle: "安全性の考え方",
       securityLede:
         "メニューバーアプリ本体は現在のユーザーとして動き、rootでは動きません。システムのスリープ設定変更には昇格権限が必要なため、Capsomniaは固定の小さなroot所有helperを、passwordless <code>sudo</code> 経由で呼び出します。",
@@ -283,52 +273,6 @@
     var langBtn = event.target.closest("[data-lang-option]");
     if (!langBtn) return;
     applyLanguage(langBtn.getAttribute("data-lang-option"));
-  });
-
-  document.addEventListener("click", function (event) {
-    var btn = event.target.closest(".copy-btn");
-    if (!btn) return;
-
-    var text = btn.getAttribute("data-copy");
-    if (text == null) {
-      var block = btn.parentElement.querySelector("pre code");
-      text = block ? block.textContent : "";
-    }
-
-    function done() {
-      var original = translations[currentLang].copyButton;
-      btn.dataset.label = original;
-      btn.textContent = translations[currentLang].copiedButton;
-      btn.classList.add("is-copied");
-      window.clearTimeout(btn._copyTimer);
-      btn._copyTimer = window.setTimeout(function () {
-        btn.textContent = btn.dataset.label;
-        btn.classList.remove("is-copied");
-      }, 1600);
-    }
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, fallback);
-    } else {
-      fallback();
-    }
-
-    function fallback() {
-      var ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "absolute";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand("copy");
-        done();
-      } catch (e) {
-        /* no-op */
-      }
-      document.body.removeChild(ta);
-    }
   });
 
   applyLanguage(currentLang);

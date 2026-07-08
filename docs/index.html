@@ -309,58 +309,49 @@
             署名済みパッケージでインストール
           </h2>
           <p class="text-[1.08rem] text-[var(--text-dim)]" data-i18n="installLede">
-            GitHub ReleasesからDeveloper ID署名・Apple公証済みの <code>.pkg</code> をダウンロードできます。
-            ソースからのビルドも開発者向けに残しています。
+            ページ上のダウンロードボタンからApple公証済みの <code>.pkg</code> をそのまま保存できます。
+            開いてインストーラに従えば完了です。
           </p>
         </div>
-        <div class="relative overflow-hidden rounded-[14px] border border-[var(--border-strong)] bg-[var(--surface-2)]">
-          <button
-            class="copy-btn absolute right-3 top-3 z-10 rounded-lg border border-[var(--led-deep)] bg-[color-mix(in_srgb,var(--led)_10%,transparent)] px-3.5 py-1.5 text-xs font-semibold text-[var(--led)] hover:bg-[var(--led)] hover:text-black"
-            type="button"
-            data-i18n="copyButton"
-            data-copy="curl -LO https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia-0.3.1.pkg&#10;open Capsomnia-0.3.1.pkg"
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a
+            class="inline-flex w-full max-w-[340px] items-center justify-center rounded-full border border-transparent bg-[var(--led)] px-6 py-3 text-base font-semibold text-black no-underline hover:-translate-y-px hover:bg-[var(--led-bright)] hover:shadow-[0_8px_30px_-8px_var(--led-glow)] sm:w-auto"
+            href="https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia-0.3.1.pkg"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-i18n="downloadCta"
+            >ダウンロード</a
           >
-            Copy
-          </button>
-          <pre
-            class="m-0 overflow-x-auto px-6 py-5"
-          ><code class="font-mono text-[0.92rem] leading-7 text-[var(--code-text)]">curl -LO https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia-0.3.1.pkg
-open Capsomnia-0.3.1.pkg</code></pre>
+          <a
+            class="inline-flex w-full max-w-[340px] items-center justify-center rounded-full border border-[var(--border-strong)] px-6 py-3 text-base font-semibold text-[var(--text)] no-underline hover:-translate-y-px hover:border-[var(--led)] hover:text-[var(--led)] sm:w-auto"
+            href="https://github.com/fuji-mak/Capsomnia/releases/latest"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub Releases</a
+          >
         </div>
         <ol class="mt-7 grid max-w-[760px] list-none gap-3 p-0 [counter-reset:step]">
           <li
             class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
             data-i18n="stepOne"
           >
-            GitHub Releasesから署名済み <code>Capsomnia-0.3.1.pkg</code> をダウンロードします。
+            ダウンロードボタンで <code>Capsomnia-0.3.1.pkg</code> を保存します。
           </li>
           <li
             class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
             data-i18n="stepTwo"
           >
-            インストーラが <code>Capsomnia.app</code> を <code>/Applications</code> に配置します。
+            <code>.pkg</code> を開き、インストーラに従います。
           </li>
           <li
             class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
             data-i18n="stepThree"
           >
-            スリープ制御用helperを <code>/Library/PrivilegedHelperTools</code> に配置します。
-          </li>
-          <li
-            class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
-            data-i18n="stepFour"
-          >
-            helperの <code>on</code>/<code>off</code>/<code>display-sleep</code> だけをsudoersで許可します。
-          </li>
-          <li
-            class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
-            data-i18n="stepFive"
-          >
-            LaunchAgentを登録し、ログイン時にCapsomniaを起動します。
+            Caps Lockをオンにして使います。
           </li>
         </ol>
         <p class="mt-7 max-w-[760px] text-sm text-[var(--text-faint)]" data-i18n="installReq">
-          macOS 14以降とインストール時の管理者権限が必要です。ソースからビルドする場合のみSwift 6 toolchainが必要です。
+          macOS 14以降、インストール時に管理者権限が必要です。詳細な安全性モデルはREADMEにまとめています。
         </p>
       </section>
 
