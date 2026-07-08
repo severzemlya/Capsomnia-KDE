@@ -76,7 +76,9 @@ cat > "$LAUNCH_AGENT" <<EOF
 EOF
 
 launchctl bootout "gui/$(id -u)" "$LAUNCH_AGENT" 2>/dev/null || true
+/usr/bin/defaults write "$LABEL" ForceWelcomeOnNextLaunch -bool true
 launchctl bootstrap "gui/$(id -u)" "$LAUNCH_AGENT"
 launchctl enable "gui/$(id -u)/$LABEL"
+/usr/bin/open "$APP_BUNDLE"
 
 echo "Installed $APP_NAME."

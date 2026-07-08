@@ -149,6 +149,7 @@ private enum PreferenceKey {
     static let launchAtLogin = "LaunchAtLogin"
     static let displaySleepOnLidClose = "DisplaySleepOnLidClose"
     static let didCompleteInitialSetup = "DidCompleteInitialSetup"
+    static let forceWelcomeOnNextLaunch = "ForceWelcomeOnNextLaunch"
 }
 
 private enum Preferences {
@@ -160,7 +161,8 @@ private enum Preferences {
             PreferenceKey.language: AppLanguage.defaultLanguage.rawValue,
             PreferenceKey.launchAtLogin: true,
             PreferenceKey.displaySleepOnLidClose: true,
-            PreferenceKey.didCompleteInitialSetup: false
+            PreferenceKey.didCompleteInitialSetup: false,
+            PreferenceKey.forceWelcomeOnNextLaunch: false
         ])
     }
 
@@ -190,6 +192,14 @@ private enum Preferences {
     static var didCompleteInitialSetup: Bool {
         get { defaults.bool(forKey: PreferenceKey.didCompleteInitialSetup) }
         set { defaults.set(newValue, forKey: PreferenceKey.didCompleteInitialSetup) }
+    }
+
+    static func consumeForceWelcomeOnNextLaunch() -> Bool {
+        let shouldShowWelcome = defaults.bool(forKey: PreferenceKey.forceWelcomeOnNextLaunch)
+        if shouldShowWelcome {
+            defaults.set(false, forKey: PreferenceKey.forceWelcomeOnNextLaunch)
+        }
+        return shouldShowWelcome
     }
 }
 
@@ -282,7 +292,7 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
         log("start")
         applyCurrentCapsLockState(reason: "startup")
 
-        if !Preferences.didCompleteInitialSetup {
+        if Preferences.consumeForceWelcomeOnNextLaunch() || !Preferences.didCompleteInitialSetup {
             showSettingsWindow(initialSetup: true)
         }
     }

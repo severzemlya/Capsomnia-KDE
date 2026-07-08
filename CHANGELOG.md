@@ -2,6 +2,13 @@
 
 All notable changes to Capsomnia will be documented in this file.
 
+## 0.3.3 - 2026-07-08
+
+Installer welcome release.
+
+- Open Capsomnia after source or package installation so the welcome screen appears.
+- Keep the package-installed app fixed at `/Applications/Capsomnia.app`.
+
 ## 0.3.2 - 2026-07-08
 
 Repository cleanup release.
