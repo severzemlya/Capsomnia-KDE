@@ -9,12 +9,10 @@
       skipLink: "Skip to content",
       navUses: "Use cases",
       navFeatures: "Features",
-      navInstall: "Install",
       navSecurity: "Security",
       heroTitle: 'Give Caps Lock<br><span class="catch-accent">a real job</span>',
       heroSub:
         "<strong>Caps Lock becomes a physical keep-awake switch.</strong> Flip it on, close the lid, and let your background work keep running.",
-      installCta: "Install",
       downloadCta: "Download",
       stripLabel: "How it works",
       stripOnTitle: "Caps Lock on",
@@ -53,13 +51,6 @@
       featureOssTitle: "Completely free, open-source design",
       featureOssBody:
         "Released under the MIT License. You can inspect the source, the helper commands, and the security model before installing.",
-      installTitle: "Install the signed package",
-      installLede:
-        "Use the Download button to get the Apple-notarized <code>.pkg</code> directly. Open it and follow the installer.",
-      stepOne: "Download <code>Capsomnia-0.3.1.pkg</code> with the Download button.",
-      stepTwo: "Open the <code>.pkg</code> and follow the installer.",
-      stepThree: "Turn Caps Lock on and start using Capsomnia.",
-      installReq: "Requires macOS 14 or later and administrator access during installation. The detailed security model is in the README.",
       securityTitle: "Security model",
       securityLede:
         "The menu bar app runs as the current user — never as root. Changing system sleep settings needs elevated privileges, so Capsomnia uses one small, fixed, root-owned helper through passwordless <code>sudo</code>.",
@@ -85,13 +76,11 @@
       skipLink: "本文へ移動",
       navUses: "用途",
       navFeatures: "特徴",
-      navInstall: "インストール",
       navSecurity: "安全性",
       heroTitle:
         'Macの<span class="catch-accent">最も無駄なキー</span>に<br><span class="catch-accent">最高の仕事</span>を与える',
       heroSub:
         "<strong>Caps Lockを物理的なスリープ防止スイッチに。</strong> オンにして蓋を閉じるだけで、バックグラウンド作業を走らせ続けます。",
-      installCta: "インストール",
       downloadCta: "ダウンロード",
       stripLabel: "仕組み",
       stripOnTitle: "Caps Lock オン",
@@ -130,13 +119,6 @@
       featureOssTitle: "完全無料、OSS公開で安心設計",
       featureOssBody:
         "MIT Licenseで公開。ソースコード、helperが実行できるコマンド、安全性モデルを確認できます。",
-      installTitle: "署名済みパッケージでインストール",
-      installLede:
-        "ページ上のダウンロードボタンからApple公証済みの <code>.pkg</code> をそのまま保存できます。開いてインストーラに従えば完了です。",
-      stepOne: "ダウンロードボタンで <code>Capsomnia-0.3.1.pkg</code> を保存します。",
-      stepTwo: "<code>.pkg</code> を開き、インストーラに従います。",
-      stepThree: "Caps Lockをオンにして使います。",
-      installReq: "macOS 14以降、インストール時に管理者権限が必要です。詳細な安全性モデルはREADMEにまとめています。",
       securityTitle: "安全性の考え方",
       securityLede:
         "メニューバーアプリ本体は現在のユーザーとして動き、rootでは動きません。システムのスリープ設定変更には昇格権限が必要なため、Capsomniaは固定の小さなroot所有helperを、passwordless <code>sudo</code> 経由で呼び出します。",

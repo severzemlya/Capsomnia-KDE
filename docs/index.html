@@ -70,12 +70,6 @@
         >
         <a
           class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]"
-          href="#install"
-          data-i18n="navInstall"
-          >インストール</a
-        >
-        <a
-          class="text-sm font-medium text-[var(--text-dim)] no-underline hover:text-[var(--text)]"
           href="#security"
           data-i18n="navSecurity"
           >安全性</a
@@ -139,7 +133,7 @@
         </p>
         <div class="mb-5 flex flex-col justify-center gap-2.5 sm:flex-row sm:gap-3.5">
           <a
-            class="mx-auto inline-flex w-full max-w-[340px] items-center justify-center rounded-full border border-transparent bg-[var(--led)] px-6 py-3 text-base font-semibold text-black no-underline hover:-translate-y-px hover:bg-[var(--led-bright)] hover:shadow-[0_8px_30px_-8px_var(--led-glow)] sm:mx-0 sm:w-auto sm:max-w-none sm:px-7 sm:py-3.5"
+            class="mx-auto inline-flex w-full max-w-[360px] items-center justify-center rounded-full border border-transparent bg-[var(--led)] px-7 py-3.5 text-lg font-semibold text-black no-underline hover:-translate-y-px hover:bg-[var(--led-bright)] hover:shadow-[0_8px_30px_-8px_var(--led-glow)] sm:mx-0 sm:w-auto sm:max-w-none sm:px-8 sm:py-4"
             href="https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia-0.3.1.pkg"
             target="_blank"
             rel="noopener noreferrer"
@@ -147,7 +141,7 @@
             >ダウンロード</a
           >
           <a
-            class="mx-auto inline-flex w-full max-w-[340px] items-center justify-center rounded-full border border-[var(--border-strong)] px-6 py-3 text-base font-semibold text-[var(--text)] no-underline hover:-translate-y-px hover:border-[var(--led)] hover:text-[var(--led)] sm:mx-0 sm:w-auto sm:max-w-none sm:px-7 sm:py-3.5"
+            class="mx-auto inline-flex w-full max-w-[360px] items-center justify-center rounded-full border border-[var(--border-strong)] px-7 py-3.5 text-lg font-semibold text-[var(--text)] no-underline hover:-translate-y-px hover:border-[var(--led)] hover:text-[var(--led)] sm:mx-0 sm:w-auto sm:max-w-none sm:px-8 sm:py-4"
             href="https://github.com/fuji-mak/Capsomnia"
             target="_blank"
             rel="noopener noreferrer"
@@ -301,58 +295,6 @@
             </div>
           </div>
         </div>
-      </section>
-
-      <section class="mx-auto max-w-[1080px] border-t border-[var(--border)] px-4 py-14 sm:px-10 sm:py-24" id="install">
-        <div class="mb-10 max-w-[720px]">
-          <h2 class="mb-4 text-[clamp(1.6rem,3.4vw,2.3rem)] font-bold leading-[1.18]" data-i18n="installTitle">
-            署名済みパッケージでインストール
-          </h2>
-          <p class="text-[1.08rem] text-[var(--text-dim)]" data-i18n="installLede">
-            ページ上のダウンロードボタンからApple公証済みの <code>.pkg</code> をそのまま保存できます。
-            開いてインストーラに従えば完了です。
-          </p>
-        </div>
-        <div class="flex flex-col gap-3 sm:flex-row">
-          <a
-            class="inline-flex w-full max-w-[340px] items-center justify-center rounded-full border border-transparent bg-[var(--led)] px-6 py-3 text-base font-semibold text-black no-underline hover:-translate-y-px hover:bg-[var(--led-bright)] hover:shadow-[0_8px_30px_-8px_var(--led-glow)] sm:w-auto"
-            href="https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia-0.3.1.pkg"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-i18n="downloadCta"
-            >ダウンロード</a
-          >
-          <a
-            class="inline-flex w-full max-w-[340px] items-center justify-center rounded-full border border-[var(--border-strong)] px-6 py-3 text-base font-semibold text-[var(--text)] no-underline hover:-translate-y-px hover:border-[var(--led)] hover:text-[var(--led)] sm:w-auto"
-            href="https://github.com/fuji-mak/Capsomnia/releases/latest"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub Releases</a
-          >
-        </div>
-        <ol class="mt-7 grid max-w-[760px] list-none gap-3 p-0 [counter-reset:step]">
-          <li
-            class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
-            data-i18n="stepOne"
-          >
-            ダウンロードボタンで <code>Capsomnia-0.3.1.pkg</code> を保存します。
-          </li>
-          <li
-            class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
-            data-i18n="stepTwo"
-          >
-            <code>.pkg</code> を開き、インストーラに従います。
-          </li>
-          <li
-            class="relative pl-11 text-[var(--text-dim)] before:absolute before:left-0 before:top-[-1px] before:grid before:h-7 before:w-7 before:place-items-center before:rounded-full before:border before:border-[var(--led-deep)] before:bg-[var(--surface-2)] before:font-mono before:text-sm before:font-bold before:text-[var(--led)] before:[content:counter(step)] [counter-increment:step]"
-            data-i18n="stepThree"
-          >
-            Caps Lockをオンにして使います。
-          </li>
-        </ol>
-        <p class="mt-7 max-w-[760px] text-sm text-[var(--text-faint)]" data-i18n="installReq">
-          macOS 14以降、インストール時に管理者権限が必要です。詳細な安全性モデルはREADMEにまとめています。
-        </p>
       </section>
 
       <section
