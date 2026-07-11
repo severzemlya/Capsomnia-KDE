@@ -7,6 +7,7 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DIST_DIR="${1:-$ROOT_DIR/dist}"
 APP_SIGN_ID="${APP_SIGN_ID:-Developer ID Application: Taketo Fujimaki (ZJZ8627852)}"
 PKG_SIGN_ID="${PKG_SIGN_ID:-Developer ID Installer: Taketo Fujimaki (ZJZ8627852)}"
+SKIP_SIGNING="${SKIP_SIGNING:-false}"
 HELPER_PATH="/Library/PrivilegedHelperTools/capsomnia-pmset"
 LEGACY_HELPER_PATH="/usr/local/sbin/capsomnia-pmset"
 SUDOERS_PATH="/etc/sudoers.d/capsomnia"
@@ -23,6 +24,7 @@ WORK_DIR="$(/usr/bin/mktemp -d)"
 PAYLOAD_ROOT="$WORK_DIR/payload"
 SCRIPTS_DIR="$WORK_DIR/scripts"
 COMPONENT_PLIST="$WORK_DIR/components.plist"
+BOM_LIST="$WORK_DIR/bom-list.txt"
 UNSIGNED_PKG="$DIST_DIR/$APP_NAME-$VERSION-unsigned.pkg"
 SANITIZED_UNSIGNED_PKG="$WORK_DIR/$APP_NAME-$VERSION-sanitized-unsigned.pkg"
 SIGNED_PKG="$DIST_DIR/$APP_NAME-$VERSION.pkg"
@@ -40,8 +42,10 @@ trap cleanup EXIT
   "$SCRIPTS_DIR"
 
 BUILT_APP="$("$ROOT_DIR/scripts/build-app.sh" "$WORK_DIR/$APP_NAME.app")"
-/usr/bin/codesign --force --options runtime --timestamp --sign "$APP_SIGN_ID" "$BUILT_APP"
-/usr/bin/codesign --verify --deep --strict --verbose=2 "$BUILT_APP"
+if [[ "$SKIP_SIGNING" != "true" ]]; then
+  /usr/bin/codesign --force --options runtime --timestamp --sign "$APP_SIGN_ID" "$BUILT_APP"
+  /usr/bin/codesign --verify --deep --strict --verbose=2 "$BUILT_APP"
+fi
 
 /usr/bin/ditto "$BUILT_APP" "$PAYLOAD_ROOT/Applications/$APP_NAME.app"
 /usr/bin/install -m 0755 "$ROOT_DIR/support/capsomnia-pmset" "$PAYLOAD_ROOT/Library/PrivilegedHelperTools/capsomnia-pmset"
@@ -105,6 +109,8 @@ console_home="$(/usr/bin/dscl . -read "/Users/$console_user" NFSHomeDirectory 2>
 /usr/sbin/chown root:wheel "$HELPER_PATH" "$SYSTEM_LAUNCH_AGENT"
 /bin/chmod 0755 "$HELPER_PATH"
 /bin/chmod 0644 "$SYSTEM_LAUNCH_AGENT"
+/usr/sbin/chown -R root:wheel "/Applications/$APP_NAME.app"
+/bin/chmod -R go-w "/Applications/$APP_NAME.app"
 /bin/rm -f "$LEGACY_HELPER_PATH"
 /usr/bin/find \
   "/Applications/$APP_NAME.app" \
@@ -169,7 +175,10 @@ PAYLOAD_ARCHIVE="$WORK_DIR/payload.cpio.gz"
 /usr/sbin/pkgutil --expand-full "$UNSIGNED_PKG" "$EXPANDED_PKG"
 /usr/bin/xattr -cr "$EXPANDED_PKG/Payload" "$EXPANDED_PKG/Scripts"
 /usr/bin/find "$EXPANDED_PKG/Payload" -name '._*' -type f -delete
-/usr/bin/mkbom "$EXPANDED_PKG/Payload" "$EXPANDED_PKG/Bom"
+/usr/bin/lsbom "$EXPANDED_PKG/Bom" \
+  | /usr/bin/awk -F '\t' 'BEGIN { OFS = "\t" } $1 !~ /(^|\/)\._/ { $3 = "0/0"; print }' \
+  > "$BOM_LIST"
+/usr/bin/mkbom -i "$BOM_LIST" "$EXPANDED_PKG/Bom"
 
 payload_file_count="$(/usr/bin/lsbom -s "$EXPANDED_PKG/Bom" | /usr/bin/wc -l | /usr/bin/tr -d ' ')"
 payload_install_kbytes="$(/usr/bin/du -sk "$EXPANDED_PKG/Payload" | /usr/bin/awk '{print $1}')"
@@ -179,13 +188,29 @@ payload_install_kbytes="$(/usr/bin/du -sk "$EXPANDED_PKG/Payload" | /usr/bin/awk
 
 (
   cd "$EXPANDED_PKG/Payload"
-  /usr/bin/find . | /usr/bin/cpio -o -H odc -z > "$PAYLOAD_ARCHIVE"
+  /usr/bin/find . | /usr/bin/cpio -o -H odc -z -R root:wheel > "$PAYLOAD_ARCHIVE"
 ) 2>/dev/null
 /bin/rm -rf "$EXPANDED_PKG/Payload"
 /bin/mv "$PAYLOAD_ARCHIVE" "$EXPANDED_PKG/Payload"
 /usr/sbin/pkgutil --flatten "$EXPANDED_PKG" "$SANITIZED_UNSIGNED_PKG"
 /bin/mv -f "$SANITIZED_UNSIGNED_PKG" "$UNSIGNED_PKG"
 
-/usr/bin/productsign --sign "$PKG_SIGN_ID" "$UNSIGNED_PKG" "$SIGNED_PKG"
+VERIFY_PKG="$WORK_DIR/verify-pkg"
+/usr/sbin/pkgutil --expand-full "$UNSIGNED_PKG" "$VERIFY_PKG"
+unexpected_owner="$(/usr/bin/lsbom "$VERIFY_PKG/Bom" | /usr/bin/awk -F '\t' '$3 != "0/0" { print; exit }')"
+appledouble_entry="$(/usr/bin/lsbom -s "$VERIFY_PKG/Bom" | /usr/bin/awk '$0 ~ /(^|\/)\._/ { print; exit }')"
+if [[ -n "$unexpected_owner" ]]; then
+  echo "Package payload contains a non-root owner: $unexpected_owner" >&2
+  exit 1
+fi
+if [[ -n "$appledouble_entry" ]]; then
+  echo "Package BOM contains an AppleDouble entry: $appledouble_entry" >&2
+  exit 1
+fi
 
-echo "$SIGNED_PKG"
+if [[ "$SKIP_SIGNING" == "true" ]]; then
+  echo "$UNSIGNED_PKG"
+else
+  /usr/bin/productsign --sign "$PKG_SIGN_ID" "$UNSIGNED_PKG" "$SIGNED_PKG"
+  echo "$SIGNED_PKG"
+fi

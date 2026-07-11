@@ -75,20 +75,16 @@ struct AppStrings {
     let settingsTitle: String
     let initialSettingsNote: String
     let welcomeTitle: String
-    let setupTitle: String
-    let inputMonitoringIntro: String
-    let inputMonitoringSteps: String
     let explainerOnTitle: String
     let explainerOnDesc: String
     let explainerOffTitle: String
     let explainerOffDesc: String
-    let openInputMonitoring: String
-    let backgroundItemNote: String
     let preferencesHeading: String
     let done: String
     let getStarted: String
     let tooltipOn: String
     let tooltipOff: String
+    let tooltipError: String
 
     static func current() -> AppStrings {
         switch Preferences.language {
@@ -104,22 +100,18 @@ struct AppStrings {
                 openCapsomnia: "Open Capsomnia",
                 quit: "Quit",
                 settingsTitle: "Settings",
-                initialSettingsNote: "Open Capsomnia again any time to change these.",
+                initialSettingsNote: "macOS may show “Taketo Fujimaki” as a background item. Open Capsomnia again any time to change these settings.",
                 welcomeTitle: "Welcome to Capsomnia",
-                setupTitle: "Finish setting up Capsomnia",
-                inputMonitoringIntro: "Capsomnia requires Input Monitoring permission.",
-                inputMonitoringSteps: "1. Select Open Input Monitoring\n2. Turn on Capsomnia\n3. Select Quit & Reopen",
                 explainerOnTitle: "Caps Lock on",
                 explainerOnDesc: "System sleep is disabled — work keeps running, lid open or closed.",
                 explainerOffTitle: "Caps Lock off",
                 explainerOffDesc: "Normal sleep behavior resumes.",
-                openInputMonitoring: "Open Input Monitoring",
-                backgroundItemNote: "macOS may show “Taketo Fujimaki” as a background item.",
                 preferencesHeading: "Preferences",
                 done: "Done",
                 getStarted: "Get started",
                 tooltipOn: "Caps Lock ON: processes stay awake",
-                tooltipOff: "Caps Lock OFF: normal sleep"
+                tooltipOff: "Caps Lock OFF: normal sleep",
+                tooltipError: "Capsomnia could not update the sleep setting — retrying"
             )
         case .japanese:
             AppStrings(
@@ -133,22 +125,18 @@ struct AppStrings {
                 openCapsomnia: "Capsomniaを開く",
                 quit: "終了",
                 settingsTitle: "設定",
-                initialSettingsNote: "あとからCapsomniaを開けばいつでも変更できます。",
+                initialSettingsNote: "macOSに「Taketo Fujimakiのバックグラウンド項目」と表示される場合があります。設定はあとからいつでも変更できます。",
                 welcomeTitle: "Capsomniaへようこそ",
-                setupTitle: "準備を完了してください",
-                inputMonitoringIntro: "Capsomniaを動かすには入力監視の許可が必要です。",
-                inputMonitoringSteps: "1.「入力監視を開く」を押す\n2. Capsomniaをオンにする\n3.「終了して再度開く」を押す",
                 explainerOnTitle: "Caps Lock ON",
                 explainerOnDesc: "システムスリープを無効化。蓋を閉じても作業が走り続けます。",
                 explainerOffTitle: "Caps Lock OFF",
                 explainerOffDesc: "通常のスリープ動作に戻ります。",
-                openInputMonitoring: "入力監視を開く",
-                backgroundItemNote: "macOSに“Taketo Fujimakiのバックグラウンド項目”と表示される場合があります。",
                 preferencesHeading: "環境設定",
                 done: "完了",
                 getStarted: "はじめる",
                 tooltipOn: "Caps Lock ON: スリープ抑止中",
-                tooltipOff: "Caps Lock OFF: 通常のスリープ動作"
+                tooltipOff: "Caps Lock OFF: 通常のスリープ動作",
+                tooltipError: "スリープ設定を更新できませんでした — 再試行中"
             )
         }
     }
@@ -161,8 +149,6 @@ private enum PreferenceKey {
     static let displaySleepOnLidClose = "DisplaySleepOnLidClose"
     static let didCompleteInitialSetup = "DidCompleteInitialSetup"
     static let forceWelcomeOnNextLaunch = "ForceWelcomeOnNextLaunch"
-    static let inputMonitoringRequested = "InputMonitoringRequested"
-    static let inputMonitoringReopenRequestedAt = "InputMonitoringReopenRequestedAt"
 }
 
 enum Preferences {
@@ -215,35 +201,4 @@ enum Preferences {
         return shouldShowWelcome
     }
 
-    static func showWelcomeOnNextLaunch() {
-        defaults.set(true, forKey: PreferenceKey.forceWelcomeOnNextLaunch)
-    }
-
-    static func markInputMonitoringReopenPending() {
-        defaults.set(Date().timeIntervalSince1970, forKey: PreferenceKey.inputMonitoringReopenRequestedAt)
-    }
-
-    static func consumeFreshInputMonitoringReopenRequest(maxAge: TimeInterval = 600) -> Bool {
-        let requestedAt = defaults.double(forKey: PreferenceKey.inputMonitoringReopenRequestedAt)
-        guard requestedAt > 0 else { return false }
-
-        defaults.removeObject(forKey: PreferenceKey.inputMonitoringReopenRequestedAt)
-        return Date().timeIntervalSince1970 - requestedAt <= maxAge
-    }
-
-    static func migrateInputMonitoringPreferenceIfNeeded() {
-        guard defaults.object(forKey: PreferenceKey.inputMonitoringRequested) == nil else { return }
-        guard defaults.bool(forKey: PreferenceKey.didCompleteInitialSetup) else { return }
-        defaults.set(true, forKey: PreferenceKey.inputMonitoringRequested)
-    }
-
-    static func ensureInputMonitoringChoiceRecorded() {
-        guard defaults.object(forKey: PreferenceKey.inputMonitoringRequested) == nil else { return }
-        defaults.set(false, forKey: PreferenceKey.inputMonitoringRequested)
-    }
-
-    static var inputMonitoringRequested: Bool {
-        get { defaults.bool(forKey: PreferenceKey.inputMonitoringRequested) }
-        set { defaults.set(newValue, forKey: PreferenceKey.inputMonitoringRequested) }
-    }
 }

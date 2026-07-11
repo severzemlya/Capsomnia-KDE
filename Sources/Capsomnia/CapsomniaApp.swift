@@ -4,16 +4,20 @@ import Foundation
 
 final class Capsomnia: NSObject, NSApplicationDelegate {
     private var lastAppliedState: Bool?
+    private var failedSleepState: Bool?
+    private var nextSleepStateRetryAt = Date.distantPast
+    private var nextDisplaySleepRetryAt = Date.distantPast
     private var didRequestDisplaySleepForClosedLid = false
     private var hasLoggedMissingClamshellState = false
     private var shouldRestoreSleepOnTerminate = true
-    private var eventTap: CFMachPort?
     private var pollingTimer: Timer?
     private var signalSources: [DispatchSourceSignal] = []
     private var statusItem: NSStatusItem?
     private var settingsWindowController: SettingsWindowController?
     private let onImage = DotImage.make(color: brandLEDColor)
     private let offImage = DotImage.make(color: NSColor(calibratedWhite: 0.58, alpha: 1.0))
+    private let errorImage = DotImage.make(color: .systemRed)
+    private let helperRetryInterval: TimeInterval = 5
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         if terminateIfNewerInteractiveDuplicate() {
@@ -21,7 +25,6 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
         }
 
         Preferences.registerDefaults()
-        Preferences.migrateInputMonitoringPreferenceIfNeeded()
         let shouldShowInitialSetup = Preferences.consumeForceWelcomeOnNextLaunch()
             || !Preferences.didCompleteInitialSetup
 
@@ -40,9 +43,7 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
         applyCurrentCapsLockState(reason: "startup")
 
         if shouldShowInitialSetup {
-            showSettingsWindow(page: initialSetupPage())
-        } else if Preferences.inputMonitoringRequested {
-            installEventTap()
+            showSettingsWindow(page: .initialPreferences)
         }
     }
 
@@ -54,13 +55,8 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         guard shouldRestoreSleepOnTerminate else { return }
 
-        let shouldReopen = consumeInputMonitoringReopenRequest()
-        if shouldReopen {
-            scheduleReopenAfterTermination()
-        }
-
-        log("terminate restore_off\(shouldReopen ? " reopen_after_permission_quit" : "")")
-        _ = runHelper("off")
+        let result = runHelper("off")
+        log("terminate restore_off helper_status=\(result.status) stdout=\(result.stdout) stderr=\(result.stderr)")
     }
 
     private func terminateIfNewerInteractiveDuplicate() -> Bool {
@@ -101,7 +97,7 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
 
             let capsLockOn = lastAppliedState
                 ?? CGEventSource.flagsState(.hidSystemState).contains(.maskAlphaShift)
-            updateStatus(capsLockOn: capsLockOn)
+            refreshStatus(capsLockOn: capsLockOn)
         } else if let item = statusItem {
             NSStatusBar.system.removeStatusItem(item)
             statusItem = nil
@@ -201,15 +197,9 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
                 onDisplaySleepOnLidCloseChange: { [weak self] enabled in
                     self?.setDisplaySleepOnLidClose(enabled)
                 },
-                onOpenInputMonitoring: { [weak self] in
-                    self?.openInputMonitoring()
-                },
                 onFinishInitialSetup: { [weak self] in
-                    Preferences.ensureInputMonitoringChoiceRecorded()
                     Preferences.didCompleteInitialSetup = true
-                    if Preferences.inputMonitoringRequested {
-                        self?.installEventTap()
-                    }
+                    self?.log("initial_setup_complete")
                 }
             )
         }
@@ -218,11 +208,7 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
     }
 
     private func currentSettingsPage() -> SettingsPage {
-        Preferences.didCompleteInitialSetup ? .settings : initialSetupPage()
-    }
-
-    private func initialSetupPage() -> SettingsPage {
-        CGPreflightListenEventAccess() ? .initialPreferences : .permissions
+        Preferences.didCompleteInitialSetup ? .settings : .initialPreferences
     }
 
     private func setShowMenuBarIcon(_ enabled: Bool) {
@@ -239,7 +225,7 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
 
         let capsLockOn = lastAppliedState
             ?? CGEventSource.flagsState(.hidSystemState).contains(.maskAlphaShift)
-        updateStatus(capsLockOn: capsLockOn)
+        refreshStatus(capsLockOn: capsLockOn)
         settingsWindowController?.reloadText()
         log("preference language=\(language.rawValue)")
     }
@@ -268,111 +254,15 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
         log("preference display_sleep_on_lid_close=\(enabled ? "on" : "off")")
     }
 
-    private func openInputMonitoring() {
-        let hasRequestedBefore = Preferences.inputMonitoringRequested
-        Preferences.showWelcomeOnNextLaunch()
-        Preferences.inputMonitoringRequested = true
-        Preferences.markInputMonitoringReopenPending()
-
-        if CGRequestListenEventAccess() {
-            installEventTap()
-            showSettingsWindow(page: .initialPreferences)
-            log("input_monitoring_already_granted")
-        } else if hasRequestedBefore {
-            openInputMonitoringSettings()
-            log("open_input_monitoring_settings_after_previous_request")
-        } else {
-            log("request_input_monitoring_access")
-        }
-    }
-
-    private func consumeInputMonitoringReopenRequest() -> Bool {
-        let shouldReopen = Preferences.consumeFreshInputMonitoringReopenRequest()
-        if shouldReopen {
-            Preferences.showWelcomeOnNextLaunch()
-        }
-        return shouldReopen
-    }
-
-    private func scheduleReopenAfterTermination() {
-        let bundlePath = Bundle.main.bundleURL.path
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/bin/sh")
-        process.arguments = [
-            "-c",
-            "sleep 1; /usr/bin/open \"$1\"",
-            "capsomnia-reopen",
-            bundlePath
-        ]
-
-        do {
-            try process.run()
-            log("scheduled_reopen_after_permission_quit")
-        } catch {
-            log("schedule_reopen_failed error=\(error.localizedDescription)")
-        }
-    }
-
-    private func openInputMonitoringSettings() {
-        let candidates = [
-            "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent",
-            "x-apple.systempreferences:com.apple.Settings.PrivacySecurity.extension?Privacy_ListenEvent"
-        ]
-
-        for candidate in candidates {
-            guard let url = URL(string: candidate) else { continue }
-            if NSWorkspace.shared.open(url) {
-                return
-            }
-        }
-
-        NSWorkspace.shared.open(URL(fileURLWithPath: "/System/Applications/System Settings.app"))
-    }
-
-    private func installEventTap() {
-        guard eventTap == nil else { return }
-
-        let eventMask = CGEventMask(1 << CGEventType.flagsChanged.rawValue)
-        let userInfo = Unmanaged.passUnretained(self).toOpaque()
-
-        guard let tap = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
-            place: .headInsertEventTap,
-            options: .listenOnly,
-            eventsOfInterest: eventMask,
-            callback: eventTapCallback,
-            userInfo: userInfo
-        ) else {
-            log("event_tap_unavailable using_polling_fallback")
-            return
-        }
-
-        eventTap = tap
-        let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
-        CGEvent.tapEnable(tap: tap, enable: true)
-        log("event_tap_ready")
-    }
-
     private func installPollingMonitor() {
         pollingTimer?.invalidate()
-        pollingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.applyCurrentCapsLockState(reason: "poll")
         }
-    }
-
-    fileprivate func handleFlagsChanged(_ event: CGEvent) {
-        let capsLockOn = event.flags.contains(.maskAlphaShift)
-        DispatchQueue.main.async { [weak self] in
-            self?.apply(capsLockOn: capsLockOn, reason: "flagsChanged")
-        }
-    }
-
-    fileprivate func reenableEventTap() {
-        if let eventTap {
-            CGEvent.tapEnable(tap: eventTap, enable: true)
-            log("event_tap_reenabled")
-        }
+        timer.tolerance = 0.05
+        pollingTimer = timer
+        RunLoop.main.add(timer, forMode: .common)
+        log("polling_ready interval_ms=250 tolerance_ms=50")
     }
 
     private func applyCurrentCapsLockState(reason: String) {
@@ -381,27 +271,49 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
     }
 
     private func apply(capsLockOn: Bool, reason: String) {
-        guard lastAppliedState != capsLockOn else {
+        if lastAppliedState == capsLockOn {
+            if failedSleepState != nil {
+                failedSleepState = nil
+                nextSleepStateRetryAt = .distantPast
+                syncStatusItemVisibility()
+            }
             evaluateDisplaySleepForClosedLid(capsLockOn: capsLockOn, reason: reason)
             return
         }
 
-        lastAppliedState = capsLockOn
+        let now = Date()
+        if failedSleepState == capsLockOn, now < nextSleepStateRetryAt {
+            return
+        }
+
         let mode = capsLockOn ? "on" : "off"
         let result = runHelper(mode)
-        updateStatus(capsLockOn: capsLockOn)
         log("\(reason) capslock=\(mode) helper_status=\(result.status) stdout=\(result.stdout) stderr=\(result.stderr)")
+
+        guard result.status == 0 else {
+            failedSleepState = capsLockOn
+            nextSleepStateRetryAt = now.addingTimeInterval(helperRetryInterval)
+            updateStatusError()
+            return
+        }
+
+        lastAppliedState = capsLockOn
+        failedSleepState = nil
+        nextSleepStateRetryAt = .distantPast
+        syncStatusItemVisibility()
         evaluateDisplaySleepForClosedLid(capsLockOn: capsLockOn, reason: reason)
     }
 
     private func evaluateDisplaySleepForClosedLid(capsLockOn: Bool, reason: String) {
         guard Preferences.displaySleepOnLidClose else {
             didRequestDisplaySleepForClosedLid = false
+            nextDisplaySleepRetryAt = .distantPast
             return
         }
 
         guard capsLockOn else {
             didRequestDisplaySleepForClosedLid = false
+            nextDisplaySleepRetryAt = .distantPast
             return
         }
 
@@ -417,14 +329,22 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
 
         guard clamshellClosed else {
             didRequestDisplaySleepForClosedLid = false
+            nextDisplaySleepRetryAt = .distantPast
             return
         }
 
         guard !didRequestDisplaySleepForClosedLid else { return }
-        didRequestDisplaySleepForClosedLid = true
+        let now = Date()
+        guard now >= nextDisplaySleepRetryAt else { return }
 
         let result = runHelper(displaySleepHelperMode)
         log("\(reason) clamshell=closed display_sleep_status=\(result.status) stdout=\(result.stdout) stderr=\(result.stderr)")
+        if result.status == 0 {
+            didRequestDisplaySleepForClosedLid = true
+            nextDisplaySleepRetryAt = .distantPast
+        } else {
+            nextDisplaySleepRetryAt = now.addingTimeInterval(helperRetryInterval)
+        }
     }
 
     private func updateStatus(capsLockOn: Bool) {
@@ -432,6 +352,23 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
         let strings = AppStrings.current()
         button.image = capsLockOn ? onImage : offImage
         button.toolTip = capsLockOn ? strings.tooltipOn : strings.tooltipOff
+    }
+
+    private func refreshStatus(capsLockOn: Bool) {
+        if failedSleepState == nil {
+            updateStatus(capsLockOn: capsLockOn)
+        } else {
+            updateStatusError()
+        }
+    }
+
+    private func updateStatusError() {
+        if statusItem == nil {
+            installStatusItem()
+        }
+        guard let button = statusItem?.button else { return }
+        button.image = errorImage
+        button.toolTip = AppStrings.current().tooltipError
     }
 
     private func runHelper(_ mode: String) -> (status: Int32, stdout: String, stderr: String) {
@@ -470,13 +407,12 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
         for signalNumber in [SIGINT, SIGTERM] {
             let source = DispatchSource.makeSignalSource(signal: signalNumber, queue: .main)
             source.setEventHandler { [weak self] in
-                let shouldReopen = self?.consumeInputMonitoringReopenRequest() ?? false
-                if shouldReopen {
-                    self?.scheduleReopenAfterTermination()
-                }
-                self?.log("signal=\(signalNumber) restore_off\(shouldReopen ? " reopen_after_permission_quit" : "")")
-                _ = self?.runHelper("off")
-                exit(shouldReopen ? 1 : 0)
+                let result = self?.runHelper("off")
+                self?.log(
+                    "signal=\(signalNumber) restore_off helper_status=\(result?.status ?? -1) "
+                        + "stdout=\(result?.stdout ?? "") stderr=\(result?.stderr ?? "")"
+                )
+                exit(0)
             }
             source.resume()
             signalSources.append(source)
@@ -503,25 +439,4 @@ final class Capsomnia: NSObject, NSApplicationDelegate {
             try? data.write(to: url)
         }
     }
-}
-
-private nonisolated(unsafe) let eventTapCallback: CGEventTapCallBack = { _, type, event, userInfo in
-    guard let userInfo else {
-        return Unmanaged.passUnretained(event)
-    }
-
-    let app = Unmanaged<Capsomnia>
-        .fromOpaque(userInfo)
-        .takeUnretainedValue()
-
-    switch type {
-    case .flagsChanged:
-        app.handleFlagsChanged(event)
-    case .tapDisabledByTimeout, .tapDisabledByUserInput:
-        app.reenableEventTap()
-    default:
-        break
-    }
-
-    return Unmanaged.passUnretained(event)
 }

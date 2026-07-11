@@ -13,6 +13,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build release executable
         run: swift build -c release
+      - name: Build and verify unsigned package payload
+        run: SKIP_SIGNING=true ./scripts/build-pkg.sh "$RUNNER_TEMP/capsomnia-pkg"
       - name: Check shell scripts
         run: |
           zsh -n scripts/build-app.sh

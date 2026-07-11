@@ -25,6 +25,12 @@ Download links should point to `Capsomnia.pkg`, not a versioned asset name.
 
 This writes a signed versioned package to `dist/Capsomnia-<version>.pkg`.
 
+CI builds the same package payload without signing and verifies that every BOM entry is owned by `root:wheel` and that no AppleDouble entries remain:
+
+```sh
+SKIP_SIGNING=true ./scripts/build-pkg.sh /tmp/capsomnia-pkg
+```
+
 ## Notarize
 
 ```sh

@@ -79,7 +79,7 @@
       }
     </script>
 
-    <link rel="stylesheet" href="styles.css?v=20260711-permissions" />
+    <link rel="stylesheet" href="styles.css?v=20260712-polling" />
   </head>
   <body class="bg-[var(--bg)] text-[var(--text)] antialiased [text-rendering:optimizeLegibility]">
     <a
@@ -414,7 +414,8 @@
 sudo -n /Library/PrivilegedHelperTools/capsomnia-pmset off
 sudo -n /Library/PrivilegedHelperTools/capsomnia-pmset display-sleep</code></pre>
             <p class="text-sm text-[var(--text-faint)]" data-i18n="securityInvokeBody">
-              The sudoers rule is limited to these three exact commands.
+              The package keeps the app, helper, and system LaunchAgent root-owned. The sudoers rule is limited to these
+              three exact commands.
             </p>
           </div>
           <div class="min-w-0 rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-6">
@@ -434,11 +435,10 @@ sudo -n /Library/PrivilegedHelperTools/capsomnia-pmset display-sleep</code></pre
         <div class="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
           <div class="min-w-0 rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-6">
             <h3 class="mb-3.5 text-base font-semibold text-[var(--text-dim)]" data-i18n="securityInputTitle">
-              Input Monitoring is optional
+              No Input Monitoring
             </h3>
             <p class="text-sm text-[var(--text-faint)]" data-i18n="securityInputBody">
-              Capsomnia uses it only to detect Caps Lock changes immediately. It does not read typed text, and it falls
-              back to a one-second Caps Lock check if you skip the permission.
+              Capsomnia does not read keyboard events. It checks only the local Caps Lock state every 250 milliseconds.
             </p>
           </div>
           <div class="min-w-0 rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-6">
@@ -512,6 +512,6 @@ sudo -n /Library/PrivilegedHelperTools/capsomnia-pmset display-sleep</code></pre
       <p class="text-sm" data-i18n="footerCatch">Macの最も無駄なキーに最高の仕事を与える</p>
     </footer>
 
-    <script src="capsomnia.js?v=20260711-permissions"></script>
+    <script src="capsomnia.js?v=20260712-polling"></script>
   </body>
 </html>
