@@ -1,7 +1,6 @@
 import AppKit
 
 enum SettingsPage {
-    case permissions
     case initialPreferences
     case settings
 }
@@ -17,12 +16,6 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private let explainerOnDesc = brandLabel(size: 12, color: Brand.textDim, wraps: true)
     private let explainerOffTitle = brandLabel(size: 13, weight: .semibold, color: Brand.text)
     private let explainerOffDesc = brandLabel(size: 12, color: Brand.textDim, wraps: true)
-
-    private let permissionsCard = brandCard()
-    private let inputMonitoringIntro = brandLabel(size: 13, weight: .medium, color: Brand.text, wraps: true)
-    private let inputMonitoringSteps = brandLabel(size: 13, color: Brand.textDim, wraps: true)
-    private let openInputMonitoringButton = LEDButton()
-    private let backgroundItemNote = brandLabel(size: 11, color: Brand.textFaint, wraps: true)
 
     private let preferencesHeading = brandLabel(size: 11, weight: .semibold, color: Brand.textFaint)
 
@@ -54,7 +47,6 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private let rootStack = NSStackView()
     private let bodyStack = NSStackView()
     private var preferencesCard = NSView()
-    private var permissionsLayoutConstraints: [NSLayoutConstraint] = []
     private var initialPreferencesLayoutConstraints: [NSLayoutConstraint] = []
     private var settingsLayoutConstraints: [NSLayoutConstraint] = []
 
@@ -62,7 +54,6 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private let onLanguageChange: (AppLanguage) -> Void
     private let onLaunchAtLoginChange: (Bool) -> Void
     private let onDisplaySleepOnLidCloseChange: (Bool) -> Void
-    private let onOpenInputMonitoring: () -> Void
     private let onFinishInitialSetup: () -> Void
     private var page: SettingsPage = .settings
 
@@ -71,14 +62,12 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         onLanguageChange: @escaping (AppLanguage) -> Void,
         onLaunchAtLoginChange: @escaping (Bool) -> Void,
         onDisplaySleepOnLidCloseChange: @escaping (Bool) -> Void,
-        onOpenInputMonitoring: @escaping () -> Void,
         onFinishInitialSetup: @escaping () -> Void
     ) {
         self.onShowMenuBarIconChange = onShowMenuBarIconChange
         self.onLanguageChange = onLanguageChange
         self.onLaunchAtLoginChange = onLaunchAtLoginChange
         self.onDisplaySleepOnLidCloseChange = onDisplaySleepOnLidCloseChange
-        self.onOpenInputMonitoring = onOpenInputMonitoring
         self.onFinishInitialSetup = onFinishInitialSetup
 
         let window = NSWindow(
@@ -113,17 +102,12 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
 
         let isInitialSetup = page != .settings
         window?.title = isInitialSetup ? strings.welcomeTitle : strings.settingsTitle
-        titleLabel.stringValue = page == .permissions ? strings.setupTitle : (isInitialSetup ? strings.welcomeTitle : "Capsomnia")
+        titleLabel.stringValue = isInitialSetup ? strings.welcomeTitle : "Capsomnia"
 
         explainerOnTitle.stringValue = strings.explainerOnTitle
         explainerOnDesc.stringValue = strings.explainerOnDesc
         explainerOffTitle.stringValue = strings.explainerOffTitle
         explainerOffDesc.stringValue = strings.explainerOffDesc
-
-        inputMonitoringIntro.stringValue = strings.inputMonitoringIntro
-        inputMonitoringSteps.stringValue = strings.inputMonitoringSteps
-        openInputMonitoringButton.title = strings.openInputMonitoring
-        backgroundItemNote.stringValue = strings.backgroundItemNote
 
         preferencesHeading.stringValue = strings.preferencesHeading.uppercased()
 
@@ -139,7 +123,6 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         doneButton.title = isInitialSetup ? strings.getStarted : strings.done
 
         explainerCard.isHidden = page != .initialPreferences
-        permissionsCard.isHidden = page != .permissions
         displaySleepOnLidCloseRow.isHidden = false
         displaySleepOnLidCloseDivider.isHidden = false
         openAtLoginRow.isHidden = false
@@ -192,12 +175,10 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         header.setCustomSpacing(14, after: headerIcon)
 
         buildExplainerCard()
-        buildPermissionsCard()
 
         preferencesCard = buildPreferencesCard()
 
         doneButton.onClick = { [weak self] in self?.done() }
-        openInputMonitoringButton.onClick = { [weak self] in self?.onOpenInputMonitoring() }
 
         configureColumn(rootStack)
         rootStack.addArrangedSubview(header)
@@ -209,9 +190,6 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         contentView.addSubview(rootStack)
         window?.contentView = contentView
 
-        permissionsLayoutConstraints = [
-            permissionsCard.widthAnchor.constraint(equalTo: bodyStack.widthAnchor)
-        ]
         initialPreferencesLayoutConstraints = [
             explainerCard.widthAnchor.constraint(equalTo: bodyStack.widthAnchor),
             preferencesCard.widthAnchor.constraint(equalTo: bodyStack.widthAnchor),
@@ -238,18 +216,11 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
 
     private func applyLayout() {
         NSLayoutConstraint.deactivate(
-            permissionsLayoutConstraints + initialPreferencesLayoutConstraints + settingsLayoutConstraints
+            initialPreferencesLayoutConstraints + settingsLayoutConstraints
         )
         clearArrangedSubviews(bodyStack)
 
         switch page {
-        case .permissions:
-            bodyStack.orientation = .vertical
-            bodyStack.alignment = .leading
-            bodyStack.distribution = .fill
-            bodyStack.spacing = 16
-            bodyStack.addArrangedSubview(permissionsCard)
-            NSLayoutConstraint.activate(permissionsLayoutConstraints)
         case .initialPreferences:
             bodyStack.orientation = .vertical
             bodyStack.alignment = .leading
@@ -307,31 +278,6 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
             inner.bottomAnchor.constraint(equalTo: explainerCard.bottomAnchor, constant: -16),
             onRow.widthAnchor.constraint(equalTo: inner.widthAnchor),
             offRow.widthAnchor.constraint(equalTo: inner.widthAnchor)
-        ])
-    }
-
-    private func buildPermissionsCard() {
-        let inner = NSStackView(views: [
-            inputMonitoringIntro,
-            inputMonitoringSteps,
-            openInputMonitoringButton,
-            backgroundItemNote
-        ])
-        inner.orientation = .vertical
-        inner.alignment = .leading
-        inner.spacing = 16
-        inner.translatesAutoresizingMaskIntoConstraints = false
-
-        permissionsCard.addSubview(inner)
-        NSLayoutConstraint.activate([
-            inner.leadingAnchor.constraint(equalTo: permissionsCard.leadingAnchor, constant: 16),
-            inner.trailingAnchor.constraint(equalTo: permissionsCard.trailingAnchor, constant: -16),
-            inner.topAnchor.constraint(equalTo: permissionsCard.topAnchor, constant: 16),
-            inner.bottomAnchor.constraint(equalTo: permissionsCard.bottomAnchor, constant: -16),
-            openInputMonitoringButton.widthAnchor.constraint(equalTo: inner.widthAnchor),
-            inputMonitoringIntro.widthAnchor.constraint(equalTo: inner.widthAnchor),
-            inputMonitoringSteps.widthAnchor.constraint(equalTo: inner.widthAnchor),
-            backgroundItemNote.widthAnchor.constraint(equalTo: inner.widthAnchor)
         ])
     }
 

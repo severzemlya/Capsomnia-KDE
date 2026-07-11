@@ -73,9 +73,7 @@ Capsomnia is useful for long-running local jobs, AI coding agents, SSH sessions,
 
 ## Settings
 
-On first launch, Capsomnia explains its background item and asks you to enable Input Monitoring. Enable Capsomnia in System Settings and choose **Quit & Reopen** when macOS asks. Capsomnia does not read typed text; this permission is used only to detect Caps Lock changes.
-
-After Capsomnia reopens and confirms the permission, you can choose:
+On first launch, Capsomnia explains how the Caps Lock switch works and lets you choose:
 
 - whether to show the menu bar dot
 - whether to turn the display off when the lid closes
@@ -84,7 +82,7 @@ After Capsomnia reopens and confirms the permission, you can choose:
 
 Open Capsomnia again later to change the same settings.
 
-Input Monitoring must be enabled before the initial setup can be completed.
+No Input Monitoring permission is required. Capsomnia checks the local Caps Lock state every 250 milliseconds. If you enabled Input Monitoring for an earlier version, you can disable it in System Settings.
 
 You can open Capsomnia from `/Applications/Capsomnia.app` after package installation, from `~/Applications/Capsomnia.app` after source installation, or from the menu bar item while it is visible.
 
@@ -140,9 +138,11 @@ The uninstaller unloads the LaunchAgent, stops Capsomnia, removes `Capsomnia.app
 
 Capsomnia's menu bar app does not run as root. System sleep settings require elevated privileges, so Capsomnia uses a small fixed helper through passwordless `sudo`.
 
+Package-installed app files, the helper, and the system LaunchAgent are owned by `root:wheel`. If the helper cannot apply a sleep-state change, the menu bar dot turns red and Capsomnia retries after five seconds instead of showing the requested state as active. The red error dot appears temporarily even if the menu bar icon is normally hidden.
+
 Capsomnia itself does not make network requests, collect telemetry, or require an account.
 
-Capsomnia tries to use a local macOS event tap so Caps Lock changes are detected immediately. macOS may classify this as Input Monitoring. Capsomnia does not record or upload keystrokes; it only checks the Caps Lock flag. If the permission is not granted, Capsomnia falls back to polling the Caps Lock state once per second.
+Capsomnia does not request Input Monitoring or read keyboard events. It checks only the local Caps Lock state every 250 milliseconds, with timer tolerance so macOS can coalesce wakeups.
 
 macOS may show a "Taketo Fujimaki" background item after installation. This is the LaunchAgent that starts Capsomnia at login and restarts it after crashes. Disabling it can stop automatic startup and crash recovery.
 
@@ -201,7 +201,7 @@ sudo -n -l /Library/PrivilegedHelperTools/capsomnia-pmset on \
   /Library/PrivilegedHelperTools/capsomnia-pmset display-sleep
 ```
 
-If the helper permission check fails, run `./scripts/install.sh` again. If the menu bar dot does not react immediately, Capsomnia also polls the Caps Lock state once per second as a fallback.
+If the helper permission check fails, run `./scripts/install.sh` again. Capsomnia checks the Caps Lock state every 250 milliseconds, so the menu bar dot may update by up to roughly a quarter second after the physical LED changes.
 
 ## Project Status
 

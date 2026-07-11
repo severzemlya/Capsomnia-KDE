@@ -29,6 +29,8 @@ Capsomnia's menu bar app runs as the current user. It does not run as root.
 
 Capsomnia itself does not make network requests, collect telemetry, or require an account.
 
+Capsomnia does not request Input Monitoring or read keyboard events. It checks only the local Caps Lock state every 250 milliseconds.
+
 System sleep settings require elevated privileges, so Capsomnia installs a small root-owned helper at:
 
 ```text
@@ -44,3 +46,5 @@ The sudoers rule only permits the current user to run:
 ```
 
 The helper only accepts `on`, `off`, and `display-sleep`. It only calls `/usr/bin/pmset -a disablesleep` or `/usr/bin/pmset displaysleepnow`.
+
+Package installs keep `/Applications/Capsomnia.app`, the helper, and the system LaunchAgent owned by `root:wheel`. The app process still runs as the signed-in user. If the helper cannot apply a sleep-state change, Capsomnia shows a red status indicator and retries instead of reporting the requested state as active.

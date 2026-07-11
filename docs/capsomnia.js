@@ -59,12 +59,12 @@
       securityOfflineTelemetry: "No telemetry",
       securityOfflineAccounts: "No accounts",
       securityInvokeTitle: "The app can only invoke",
-      securityInvokeBody: "The sudoers rule is limited to these three exact commands.",
+      securityInvokeBody: "The package keeps the app, helper, and system LaunchAgent root-owned. The sudoers rule is limited to these three exact commands.",
       securityHelperTitle: "The helper only ever runs",
       securityHelperBody: "It accepts <code>on</code>, <code>off</code>, and <code>display-sleep</code> and nothing else.",
-      securityInputTitle: "Input Monitoring is optional",
+      securityInputTitle: "No Input Monitoring",
       securityInputBody:
-        "Capsomnia uses it only to detect Caps Lock changes immediately. It does not read typed text, and it falls back to a one-second Caps Lock check if you skip the permission.",
+        "Capsomnia does not read keyboard events. It checks only the local Caps Lock state every 250 milliseconds.",
       securityBackgroundTitle: "Background item prompt",
       securityBackgroundBody:
         "macOS may show “Taketo Fujimaki” as a background item. This is the LaunchAgent that starts Capsomnia at login and recovers after crashes.",
@@ -137,12 +137,12 @@
       securityOfflineTelemetry: "テレメトリなし",
       securityOfflineAccounts: "アカウント不要",
       securityInvokeTitle: "アプリが呼べるのはこれだけ",
-      securityInvokeBody: "sudoersルールは、この3つの完全一致コマンドだけに限定されています。",
+      securityInvokeBody: "パッケージ版のアプリ、helper、システムLaunchAgentはroot所有です。sudoersルールは、この3つの完全一致コマンドだけに限定されています。",
       securityHelperTitle: "helperが実行するのはこれだけ",
       securityHelperBody: "<code>on</code>、<code>off</code>、<code>display-sleep</code> 以外は受け付けません。",
-      securityInputTitle: "入力監視は任意です",
+      securityInputTitle: "入力監視は不要",
       securityInputBody:
-        "CapsomniaはCaps Lockの切り替えをすぐ検知するためだけに使います。入力内容は読みません。許可しない場合も、1秒ごとのCaps Lock状態確認で動作します。",
+        "Capsomniaはキーボードイベントを読みません。ローカルのCaps Lock状態だけを250ミリ秒ごとに確認します。",
       securityBackgroundTitle: "バックグラウンド項目の表示",
       securityBackgroundBody:
         "macOSが「Taketo Fujimaki」のバックグラウンド項目を表示することがあります。これはログイン時にCapsomniaを起動し、クラッシュ後に復帰するためのLaunchAgentです。",
