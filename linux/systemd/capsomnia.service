@@ -1,0 +1,18 @@
+[Unit]
+Description=Capsomnia — turn Caps Lock into a keep-awake switch (KDE)
+Documentation=https://github.com/fuji-mak/Capsomnia
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/capsomnia
+# Crash recovery, mirroring the macOS LaunchAgent KeepAlive behavior.
+Restart=on-failure
+RestartSec=2
+# On stop, SIGTERM lets the app restore normal sleep before exiting.
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+[Install]
+WantedBy=graphical-session.target

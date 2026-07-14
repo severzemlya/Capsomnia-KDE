@@ -20,6 +20,8 @@ Current version: `1.0.0`
 
 [日本語 README](README.ja.md) · [Download `Capsomnia.pkg`](https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia.pkg)
 
+> **On KDE Plasma?** A native KDE port lives in [`linux/`](linux/README.md) — same Caps Lock switch, using a systemd inhibitor and a PowerDevil lid override, with no root required.
+
 Capsomnia is a small macOS menu bar app that turns Caps Lock into a physical keep-awake switch for closed-lid MacBook work.
 
 Turn Caps Lock on when local work should keep running. Turn Caps Lock off when you want normal sleep behavior back.
