@@ -1,19 +1,16 @@
 # Changelog
 
-All notable changes to Capsomnia will be documented in this file.
+## 1.0.0 — KDE Plasma
 
-## Unreleased
+First release of the Linux / KDE Plasma edition, reworked from the macOS
+Capsomnia ([fuji-mak/Capsomnia](https://github.com/fuji-mak/Capsomnia)).
 
-## 1.0.0 - 2026-07-12
-
-First stable release of Capsomnia.
-
-- Toggle system sleep prevention with Caps Lock while keeping normal sleep behavior one switch away.
-- Keep local work running with the MacBook lid closed, with optional display sleep.
-- Provide a signed and notarized installer, a restricted root-owned helper, crash recovery, and a bundled uninstaller.
-- Detect Caps Lock through local 250-millisecond polling without requesting Input Monitoring permission.
-- Replace the shell-based privileged helper with a signed native executable that never loads shell startup files.
-- Verify the actual `SleepDisabled` state after changes and every ten seconds, then recover from drift.
-- Keep the previous applied state when the privileged helper fails, show a red error indicator, and retry after five seconds.
-- Preserve root ownership for every system package payload entry and verify package ownership in CI.
-- Make no network requests, collect no telemetry, and require no account.
+- Caps Lock as a physical keep-awake switch, read from the kernel LED sysfs
+  (`/sys/class/leds/*capslock*/brightness`) — no key events, no root.
+- Idle sleep blocked with an unprivileged `systemd-inhibit` inhibitor.
+- Lid-close suspend suppressed by overriding KDE PowerDevil's `LidAction` for all
+  power profiles while armed, reloaded via PowerDevil's D-Bus `refreshStatus` and
+  restored on disengage (with crash recovery).
+- PyQt6 system-tray UI (green / grey / red LED dot), English / Japanese.
+- systemd user service for autostart and crash recovery; install / uninstall
+  scripts.

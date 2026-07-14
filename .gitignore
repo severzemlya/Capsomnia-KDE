@@ -1,11 +1,12 @@
-.build/
-.swiftpm/
-node_modules/
-dist/
-*.app/
-.DS_Store
-
-# Linux/KDE port
+# Python
 __pycache__/
-*.pyc
-linux/**/__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
