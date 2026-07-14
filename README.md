@@ -22,8 +22,8 @@ Tested on TUXEDO OS 24.04 (Ubuntu 24.04 base), Plasma 6.5, Wayland.
 ## Install
 
 ```sh
-git clone https://github.com/severzemlya/Capsomnia.git
-cd Capsomnia
+git clone https://github.com/severzemlya/Capsomnia-KDE.git
+cd Capsomnia-KDE
 ./install.sh
 ```
 
@@ -119,13 +119,13 @@ kreadconfig6 --file powerdevilrc --group Battery --group SuspendAndShutdown --ke
 ## Update
 
 ```sh
-cd Capsomnia && git pull && ./install.sh
+cd Capsomnia-KDE && git pull && ./install.sh
 ```
 
 ## Uninstall
 
 ```sh
-cd Capsomnia
+cd Capsomnia-KDE
 ./uninstall.sh
 ```
 
