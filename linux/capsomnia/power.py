@@ -106,14 +106,47 @@ class PowerController:
             self._restore_lid_action()
 
     def verify(self) -> bool:
-        """Confirm the suppression is actually in effect (drift detection)."""
+        """Confirm the suppression is actually in effect (drift detection).
+
+        On KDE the authoritative check is PowerDevil's *in-memory* lid action
+        (HandleButtonEvents.lidAction() over D-Bus), not just the config file:
+        the config can say "do nothing" while PowerDevil still holds the old
+        action in memory until refreshStatus() reloads it.
+        """
         if not self.is_engaged:
             return False
         if self._kde:
+            live = self._read_inmemory_lid_action()
+            # If we cannot read the live value, fall back to the config value.
+            if live is not None:
+                return live == _LID_DO_NOTHING
             for profile in _PROFILES:
                 if self._read_lid_action(profile) != _LID_DO_NOTHING:
                     return False
         return True
+
+    @staticmethod
+    def _read_inmemory_lid_action() -> str | None:
+        """PowerDevil's live lid action, or None if it can't be read."""
+        qdbus = shutil.which("qdbus6") or shutil.which("qdbus")
+        if not qdbus:
+            return None
+        try:
+            result = subprocess.run(
+                [
+                    qdbus,
+                    "org.kde.Solid.PowerManagement",
+                    "/org/kde/Solid/PowerManagement/Actions/HandleButtonEvents",
+                    "lidAction",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except (OSError, subprocess.SubprocessError):
+            return None
+        value = result.stdout.strip()
+        return value if value.isdigit() else None
 
     # --- systemd inhibitor ----------------------------------------------
     def _start_inhibitor(self) -> bool:
@@ -254,15 +287,25 @@ class PowerController:
 
     @staticmethod
     def _reparse_powerdevil() -> None:
-        if not shutil.which("qdbus6"):
+        """Make PowerDevil re-read the lid action from powerdevilrc.
+
+        We must call refreshStatus(), NOT reparseConfiguration(): the latter only
+        reloads global settings, while refreshStatus() runs loadProfile(force),
+        which re-runs each action's onProfileLoad() and so re-reads LidAction.
+        Calling the wrong one leaves the old lid action in memory and the machine
+        suspends on lid close despite the config file saying "do nothing".
+        See KDE/powerdevil daemon/powerdevilcore.cpp.
+        """
+        qdbus = shutil.which("qdbus6") or shutil.which("qdbus")
+        if not qdbus:
             return
         try:
             subprocess.run(
                 [
-                    "qdbus6",
+                    qdbus,
                     "org.kde.Solid.PowerManagement",
                     "/org/kde/Solid/PowerManagement",
-                    "reparseConfiguration",
+                    "refreshStatus",
                 ],
                 capture_output=True,
                 timeout=5,
