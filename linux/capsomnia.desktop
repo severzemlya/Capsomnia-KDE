@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Capsomnia
+GenericName=Caps Lock keep-awake switch
+Comment=Turn Caps Lock into a physical keep-awake switch for closed-lid work
+Exec=capsomnia
+Icon=capsomnia
+Terminal=false
+Categories=Utility;System;
+Keywords=caps lock;sleep;keep awake;lid;suspend;inhibit;
+StartupNotify=false
+X-GNOME-UsesNotifications=true

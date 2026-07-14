@@ -10,17 +10,30 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/fuji-mak/Capsomnia/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/fuji-mak/Capsomnia/ci.yml?branch=main&style=flat-square&label=CI&labelColor=111111&color=b7ff3c"></a>
   <img alt="macOS 14+" src="https://img.shields.io/badge/macOS-14%2B-b7ff3c?style=flat-square&labelColor=111111">
-  <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-b7ff3c?style=flat-square&labelColor=111111">
+  <a href="linux/README.md"><img alt="Linux / KDE Plasma" src="https://img.shields.io/badge/Linux-KDE%20Plasma-b7ff3c?style=flat-square&labelColor=111111&logo=kde&logoColor=white"></a>
+  <img alt="Swift 6 / Python" src="https://img.shields.io/badge/Swift%206%20%C2%B7%20Python-b7ff3c?style=flat-square&labelColor=111111">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-b7ff3c?style=flat-square&labelColor=111111"></a>
 </p>
 
 Current version: `1.0.0`
 
-[日本語 README](README.ja.md) · [Download `Capsomnia.pkg`](https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia.pkg)
+[日本語 README](README.ja.md) · [Download `Capsomnia.pkg` (macOS)](https://github.com/fuji-mak/Capsomnia/releases/latest/download/Capsomnia.pkg)
 
-Capsomnia is a small macOS menu bar app that turns Caps Lock into a physical keep-awake switch for closed-lid MacBook work.
+Capsomnia turns **Caps Lock into a physical keep-awake switch** for closed-lid laptop work. Turn Caps Lock on when local work should keep running; turn it off for normal sleep. The Caps Lock LED physically shows the state.
+
+**Two platforms:**
+
+| Platform | Location | Mechanism |
+| --- | --- | --- |
+| **macOS 14+** (menu bar app) | this repo — see below | `pmset` via a signed privileged helper |
+| **Linux · KDE Plasma 6** (tray app) | [**`linux/`**](linux/README.md) | systemd inhibitor + PowerDevil lid override, **no root** |
+
+> 🐧 **On Linux with KDE Plasma?** Head straight to **[`linux/README.md`](linux/README.md)** — `cd linux && ./install.sh`. The rest of this page is the macOS app.
+
+---
+
+The macOS build is a small menu bar app that turns Caps Lock into a physical keep-awake switch for closed-lid MacBook work.
 
 Turn Caps Lock on when local work should keep running. Turn Caps Lock off when you want normal sleep behavior back.
 
